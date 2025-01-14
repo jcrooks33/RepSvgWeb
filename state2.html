@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Details</title>
+    <style>
+        /* Center the SVG and style it */
+        #state-container {
+            width: 100%;
+            max-width: 800px; /* Adjust as needed */
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        /* Highlight style for hovered elements */
+        .highlight {
+            fill: #FFD700 !important; /* Gold color for highlight */
+            stroke: #FF4500 !important; /* OrangeRed stroke */
+            stroke-width: 2px;
+        }
+
+        /* Optional: Style for clicked elements */
+        .selected {
+            fill: #1E90FF !important; /* DodgerBlue color for selected */
+            stroke: #0000CD !important; /* MediumBlue stroke */
+            stroke-width: 2px;
+        }
+
+        /* Style for non-interactive elements */
+        .non-interactive {
+            fill: white !important; /* Light gray color */
+            pointer-events: none; /* Disable pointer events */
+        }
+
+        /* Information display styles */
+        #info-box {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+          padding: 20px;
+        }
+        form {
+          margin-top: 20px;
+        }
+        input, select {
+          padding: 10px;
+          margin: 5px;
+          width: 300px;
+        }
+        button {
+          padding: 10px 20px;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+        button:hover {
+          background-color: #0056b3;
+        }
+        #statusMessage {
+          margin-top: 20px;
+          font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sign Up for Updates!</h1>
+  
+    <form id="signupForm">
+      <input type="email" name="email" placeholder="Enter your email" required />
+
+      <!-- State Dropdown -->
+      <select id="stateDropdown" name="state" required>
+        <option value="" disabled selected>Select your state</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+        <!-- ...other states... -->
+      </select>
+
+      <!-- Dependent Dropdown -->
+      <select id="dependentDropdown" name="rep_name" required>
+        <option value="" disabled selected>Please select a state first</option>
+      </select>
+
+      <button type="submit">Sign Up</button>
+    </form>
+    <h1 id="state-title">State Details</h1>
+    <div id="state-container">
+        <!-- State SVG will be loaded here -->
+    </div>
+    <div id="info-box">
+        <p id="hover-info">Hover over a region to see its ID.</p>
+        <p id="click-info">Click on a region to select it.</p>
+    </div>
+    <div id="statusMessage"></div> <!-- Added this div to display status messages -->
+
+    <script>
+        // Mapping of state names to their abbreviations
+        const stateAbbreviations = {
+            'alabama': 'AL',
+            'alaska': 'AK',
+            'arizona': 'AZ',
+            'arkansas': 'AR',
+            'california': 'CA',
+            'colorado': 'CO',
+            'connecticut': 'CT',
+            'delaware': 'DE',
+            'florida': 'FL',
+            'georgia': 'GA',
+            'hawaii': 'HI',
+            'idaho': 'ID',
+            'illinois': 'IL',
+            'indiana': 'IN',
+            'iowa': 'IA',
+            'kansas': 'KS',
+            'kentucky': 'KY',
+            'louisiana': 'LA',
+            'maine': 'ME',
+            'maryland': 'MD',
+            'massachusetts': 'MA',
+            'michigan': 'MI',
+            'minnesota': 'MN',
+            'mississippi': 'MS',
+            'missouri': 'MO',
+            'montana': 'MT',
+            'nebraska': 'NE',
+            'nevada': 'NV',
+            'new-hampshire': 'NH',
+            'new-jersey': 'NJ',
+            'new-mexico': 'NM',
+            'new-york': 'NY',
+            'north-carolina': 'NC',
+            'north-dakota': 'ND',
+            'ohio': 'OH',
+            'oklahoma': 'OK',
+            'oregon': 'OR',
+            'pennsylvania': 'PA',
+            'rhode-island': 'RI',
+            'south-carolina': 'SC',
+            'south-dakota': 'SD',
+            'tennessee': 'TN',
+            'texas': 'TX',
+            'utah': 'UT',
+            'vermont': 'VT',
+            'virginia': 'VA',
+            'washington': 'WA',
+            'west-virginia': 'WV',
+            'wisconsin': 'WI',
+            'wyoming': 'WY'
+        };
+
+        // Map of states to their representatives
+        const stateOptions = {
+            AL: ["Moore, Barry", "Figures, Shomari", "Rogers, Mike", "Aderholt, Robert", "Strong, Dale", "Palmer, Gary", "Sewell, Terri"], // Alabama
+            AK: ["Begich, Nicholas"], // Alaska
+            AZ: ["Schweikert, David", "Crane, Elijah", "Ansari, Yassamin", "Stanton, Greg", "Biggs, Andy", "Ciscomani, Juan", "Grijalva, Raul", "Hamadeh, Abraham", "Gosar, Paul"], // Arizona
+            AR: ["Crawford, Eric", "Hill, J.", "Womack, Steve", "Westerman, Bruce"], // Arkansas
+            CA: [
+              "LaMalfa, Doug", "Huffman, Jared", "Kiley, Kevin", "Thompson, Mike", "McClintock, Tom",
+              "Bera, Ami", "Matsui, Doris", "Garamendi, John", "Harder, Josh", "DeSaulnier, Mark",
+              "Pelosi, Nancy", "Simon, Lateefah", "Gray, Adam", "Swalwell, Eric", "Mullin, Kevin",
+              "Liccardo, Sam", "Khanna, Ro", "Lofgren, Zoe", "Panetta, Jimmy", "Fong, Vince",
+              "Costa, Jim", "Valadao, David", "Obernolte, Jay", "Carbajal, Salud", "Ruiz, Raul",
+              "Brownley, Julia", "Whitesides, George", "Chu, Judy", "Rivas, Luz", "Friedman, Laura",
+              "Cisneros, Gilbert", "Sherman, Brad", "Aguilar, Pete", "Gomez, Jimmy", "Torres, Norma",
+              "Lieu, Ted", "Kamlager-Dove, Sydney", "Sanchez, Linda", "Takano, Mark", "Kim, Young",
+              "Calvert, Ken", "Garcia, Robert", "Waters, Maxine", "Barragan, Nanette", "Tran, Derek",
+              "Correa, J.", "Min, Dave", "Issa, Darrell", "Levin, Mike", "Peters, Scott",
+              "Jacobs, Sara", "Vargas, Juan"
+            ], // California
+            CO: ["DeGette, Diana", "Neguse, Joe", "Hurd, Jeff", "Boebert, Lauren", "Crank, Jeff", "Crow, Jason", "Pettersen, Brittany", "Evans, Gabe"], // Colorado
+            CT: ["Larson, John", "Courtney, Joe", "DeLauro, Rosa", "Himes, James", "Hayes, Jahana"], // Connecticut
+            DE: ["McBride, Sarah"], // Delaware
+            DC: ["Norton, Eleanor"], // District of Columbia
+            FL: [
+              "Gaetz, Matt- Vacancy", "Dunn, Neal", "Cammack, Kat", "Bean, Aaron", "Rutherford, John",
+              "Waltz, Michael", "Mills, Cory", "Haridopolos, Mike", "Soto, Darren", "Frost, Maxwell",
+              "Webster, Daniel", "Bilirakis, Gus", "Luna, Anna Paulina", "Castor, Kathy", "Lee, Laurel",
+              "Buchanan, Vern", "Steube, W.", "Franklin, Scott", "Donalds, Byron", "Cherfilus-McCormick, Sheila",
+              "Mast, Brian", "Frankel, Lois", "Moskowitz, Jared", "Wilson, Frederica", "Wasserman Schultz, Debbie",
+              "Diaz-Balart, Mario", "Salazar, Maria", "Gimenez, Carlos"
+            ], // Florida
+            GA: ["Carter, Earl", "Bishop, Sanford", "Jack, Brian", "Johnson, Henry", "Williams, Nikema", "McBath, Lucy", "McCormick, Richard", "Scott, Austin", "Clyde, Andrew", "Collins, Mike", "Loudermilk, Barry", "Allen, Rick", "Scott, David", "Greene, Marjorie"], // Georgia
+            GU: ["Moylan, James"], // Guam
+            HI: ["Case, Ed", "Tokuda, Jill"], // Hawaii
+            ID: ["Fulcher, Russ", "Simpson, Michael"], // Idaho
+            IL: [
+              "Jackson, Jonathan", "Kelly, Robin", "Ramirez, Delia", "Garcia, Jesus", "Quigley, Mike",
+              "Casten, Sean", "Davis, Danny", "Krishnamoorthi, Raja", "Schakowsky, Janice", "Schneider, Bradley",
+              "Foster, Bill", "Bost, Mike", "Budzinski, Nikki", "Underwood, Lauren", "Miller, Mary",
+              "LaHood, Darin", "Sorensen, Eric"
+            ], // Illinois
+            IN: ["Mrvan, Frank", "Yakym, Rudy", "Stutzman, Marlin", "Baird, James", "Spartz, Victoria", "Shreve, Jefferson", "Carson, Andre", "Messmer, Mark", "Houchin, Erin"], // Indiana
+            IA: ["Miller-Meeks, Mariannette", "Hinson, Ashley", "Nunn, Zachary", "Feenstra, Randy"], // Iowa
+            KS: ["Mann, Tracey", "Schmidt, Derek", "Davids, Sharice", "Estes, Ron"], // Kansas
+            KY: ["Comer, James", "Guthrie, Brett", "McGarvey, Morgan", "Massie, Thomas", "Rogers, Harold", "Barr, Andy"], // Kentucky
+            LA: ["Scalise, Steve", "Carter, Troy", "Higgins, Clay", "Johnson, Mike", "Letlow, Julia", "Fields, Cleo"], // Louisiana
+            ME: ["Pingree, Chellie", "Golden, Jared"], // Maine
+            MD: ["Harris, Andy", "Olszewski, Johnny", "Elfreth, Sarah", "Ivey, Glenn", "Hoyer, Steny", "McClain Delaney, April", "Mfume, Kweisi", "Raskin, Jamie"], // Maryland
+            MA: [
+              "Neal, Richard", "McGovern, James", "Trahan, Lori", "Auchincloss, Jake",
+              "Clark, Katherine", "Moulton, Seth", "Pressley, Ayanna", "Lynch, Stephen",
+              "Keating, William"
+            ], // Massachusetts
+            MI: [
+              "Bergman, Jack", "Moolenaar, John", "Scholten, Hillary", "Huizenga, Bill",
+              "Walberg, Tim", "Dingell, Debbie", "Barrett, Tom", "McDonald Rivet, Kristen",
+              "McClain, Lisa", "James, John", "Stevens, Haley", "Tlaib, Rashida", "Thanedar, Shri"
+            ], // Michigan
+            MN: ["Finstad, Brad", "Craig, Angie", "Morrison, Kelly", "McCollum, Betty", "Omar, Ilhan", "Emmer, Tom", "Fischbach, Michelle", "Stauber, Pete"], // Minnesota
+            MS: ["Kelly, Trent", "Thompson, Bennie", "Guest, Michael", "Ezell, Mike"], // Mississippi
+            MO: ["Bell, Wesley", "Wagner, Ann", "Onder, Robert", "Alford, Mark", "Cleaver, Emanuel", "Graves, Sam", "Burlison, Eric", "Smith, Jason"], // Missouri
+            MT: ["Zinke, Ryan", "Downing, Troy"], // Montana
+            NE: ["Flood, Mike", "Bacon, Don", "Smith, Adrian"], // Nebraska
+            NV: ["Titus, Dina", "Amodei, Mark", "Lee, Susie", "Horsford, Steven"], // Nevada
+            NH: ["Pappas, Chris", "Goodlander, Maggie"], // New Hampshire
+            NJ: [
+              "Norcross, Donald", "Van Drew, Jefferson", "Conaway, Herbert", "Smith, Christopher",
+              "Gottheimer, Josh", "Pallone, Frank", "Kean, Thomas", "Menendez, Robert",
+              "Pou, Nellie", "McIver, LaMonica", "Sherrill, Mikie", "Watson Coleman, Bonnie"
+            ], // New Jersey
+            NM: ["Stansbury, Melanie", "Vasquez, Gabe", "Leger Fernandez, Teresa"], // New Mexico
+            NY: [
+              "LaLota, Nick", "Garbarino, Andrew", "Suozzi, Thomas R.", "Gillen, Laura",
+              "Meeks, Gregory", "Meng, Grace", "Velazquez, Nydia", "Jeffries, Hakeem",
+              "Clarke, Yvette", "Goldman, Daniel", "Malliotakis, Nicole", "Nadler, Jerrold",
+              "Espaillat, Adriano", "Ocasio-Cortez, Alexandria", "Torres, Ritchie",
+              "Latimer, George", "Lawler, Michael", "Ryan, Patrick", "Riley, Josh",
+              "Tonko, Paul", "Stefanik, Elise", "Mannion, John", "Langworthy, Nicholas",
+              "Tenney, Claudia", "Morelle, Joseph", "Kennedy, Timothy"
+            ], // New York
+            NC: [
+              "Davis, Donald", "Ross, Deborah", "Murphy, Gregory", "Foushee, Valerie",
+              "Foxx, Virginia", "McDowell, Addison", "Rouzer, David", "Harris, Mark",
+              "Hudson, Richard", "Harrigan, Pat", "Edwards, Chuck", "Adams, Alma",
+              "Knott, Brad", "Moore, Tim"
+            ], // North Carolina
+            ND: ["Fedorchak, Julie"], // North Dakota
+            MP: ["King-Hinds, Kimberlyn"], // Northern Mariana Islands
+            OH: [
+              "Landsman, Greg", "Taylor, David", "Beatty, Joyce", "Jordan, Jim",
+              "Latta, Robert", "Rulli, Michael A.", "Miller, Max", "Davidson, Warren",
+              "Kaptur, Marcy", "Turner, Michael", "Brown, Shontel", "Balderson, Troy",
+              "Sykes, Emilia", "Joyce, David", "Carey, Mike"
+            ], // Ohio
+            OK: ["Hern, Kevin", "Brecheen, Josh", "Lucas, Frank", "Cole, Tom", "Bice, Stephanie"], // Oklahoma
+            OR: ["Bonamici, Suzanne", "Bentz, Cliff", "Dexter, Maxine", "Hoyle, Val", "Bynum, Janelle", "Salinas, Andrea"], // Oregon
+            PA: [
+              "Fitzpatrick, Brian", "Boyle, Brendan", "Evans, Dwight", "Dean, Madeleine",
+              "Scanlon, Mary Gay", "Houlahan, Chrissy", "Mackenzie, Ryan", "Bresnahan, Robert",
+              "Meuser, Daniel", "Perry, Scott", "Smucker, Lloyd", "Lee, Summer",
+              "Joyce, John", "Reschenthaler, Guy", "Thompson, Glenn", "Kelly, Mike",
+              "Deluzio, Christopher"
+            ], // Pennsylvania
+            PR: ["Hernandez, Pablo"], // Puerto Rico
+            RI: ["Amo, Gabe", "Magaziner, Seth"], // Rhode Island
+            SC: ["Mace, Nancy", "Wilson, Joe", "Biggs, Sheri", "Timmons, William", "Norman, Ralph", "Clyburn, James", "Fry, Russell"], // South Carolina
+            SD: ["Johnson, Dusty"], // South Dakota
+            TN: ["Harshbarger, Diana", "Burchett, Tim", "Fleischmann, Charles", "DesJarlais, Scott", "Ogles, Andrew", "Rose, John", "Green, Mark", "Kustoff, David", "Cohen, Steve"], // Tennessee
+            TX: [
+              "Moran, Nathaniel", "Crenshaw, Dan", "Self, Keith", "Fallon, Pat", "Gooden, Lance",
+              "Ellzey, Jake", "Fletcher, Lizzie", "Luttrell, Morgan", "Green, Al", "McCaul, Michael",
+              "Pfluger, August", "Goldman, Craig", "Jackson, Ronny", "Weber, Randy",
+              "De La Cruz, Monica", "Escobar, Veronica", "Sessions, Pete", "Turner, Sylvester",
+              "Arrington, Jodey", "Castro, Joaquin", "Roy, Chip", "Nehls, Troy",
+              "Gonzales, Tony", "Van Duyne, Beth", "Williams, Roger", "Gill, Brandon",
+              "Cloud, Michael", "Cuellar, Henry", "Garcia, Sylvia", "Crockett, Jasmine",
+              "Carter, John", "Johnson, Julie", "Veasey, Marc", "Gonzalez, Vicente",
+              "Casar, Greg", "Babin, Brian", "Doggett, Lloyd", "Hunt, Wesley"
+            ], // Texas
+            UT: ["Moore, Blake", "Maloy, Celeste", "Kennedy, Mike", "Owens, Burgess"], // Utah
+            VT: ["Balint, Becca"], // Vermont
+            VA: [
+              "Wittman, Robert", "Kiggans, Jennifer", "Scott, Robert", "McClellan, Jennifer",
+              "McGuire, John", "Cline, Ben", "Vindman, Eugene", "Beyer, Donald",
+              "Griffith, H.", "Subramanyam, Suhas", "Connolly, Gerald"
+            ], // Virginia
+            VI: ["Plaskett, Stacey"], // Virgin Islands
+            WA: [
+              "DelBene, Suzan", "Larsen, Rick", "Perez, Marie", "Newhouse, Dan",
+              "Baumgartner, Michael", "Randall, Emily", "Jayapal, Pramila", "Schrier, Kim",
+              "Smith, Adam", "Strickland, Marilyn"
+            ], // Washington
+            WV: ["Miller, Carol", "Moore, Riley"], // West Virginia
+            WI: ["Steil, Bryan", "Pocan, Mark", "Van Orden, Derrick", "Moore, Gwen", "Fitzgerald, Scott", "Grothman, Glenn", "Tiffany, Thomas", "Wied, Tony"], // Wisconsin
+            WY: ["Hageman, Harriet"] // Wyoming
+        };
+
+// Mapping of district IDs to their representatives
+const districtToRep = {
+    // Alabama Districts
+    'AL01': 'Moore, Barry',
+    'AL02': 'Figures, Shomari',
+    'AL03': 'Rogers, Mike',
+    'AL04': 'Aderholt, Robert',
+    'AL05': 'Strong, Dale',
+    'AL06': 'Palmer, Gary',
+    'AL07': 'Sewell, Terri',
+
+    // Alaska Districts
+    'AK00': 'Begich, Nicholas',
+
+    // American Samoa Districts
+    'AS00': 'Radewagen, Aumua Amata',
+
+    // Arizona Districts
+    'AZ01': 'Schweikert, David',
+    'AZ02': 'Crane, Elijah',
+    'AZ03': 'Ansari, Yassamin',
+    'AZ04': 'Stanton, Greg',
+    'AZ05': 'Biggs, Andy',
+    'AZ06': 'Ciscomani, Juan',
+    'AZ07': 'Grijalva, Raul',
+    'AZ08': 'Hamadeh, Abraham',
+    'AZ09': 'Gosar, Paul',
+
+    // Arkansas Districts
+    'AR01': 'Crawford, Eric',
+    'AR02': 'Hill, J.',
+    'AR03': 'Womack, Steve',
+    'AR04': 'Westerman, Bruce',
+
+    // California Districts
+    'CA01': 'LaMalfa, Doug',
+    'CA02': 'Huffman, Jared',
+    'CA03': 'Kiley, Kevin',
+    'CA04': 'Thompson, Mike',
+    'CA05': 'McClintock, Tom',
+    'CA06': 'Bera, Ami',
+    'CA07': 'Matsui, Doris',
+    'CA08': 'Garamendi, John',
+    'CA09': 'Harder, Josh',
+    'CA10': 'DeSaulnier, Mark',
+    'CA11': 'Pelosi, Nancy',
+    'CA12': 'Simon, Lateefah',
+    'CA13': 'Gray, Adam',
+    'CA14': 'Swalwell, Eric',
+    'CA15': 'Mullin, Kevin',
+    'CA16': 'Liccardo, Sam',
+    'CA17': 'Khanna, Ro',
+    'CA18': 'Lofgren, Zoe',
+    'CA19': 'Panetta, Jimmy',
+    'CA20': 'Fong, Vince',
+    'CA21': 'Costa, Jim',
+    'CA22': 'Valadao, David',
+    'CA23': 'Obernolte, Jay',
+    'CA24': 'Carbajal, Salud',
+    'CA25': 'Ruiz, Raul',
+    'CA26': 'Brownley, Julia',
+    'CA27': 'Whitesides, George',
+    'CA28': 'Chu, Judy',
+    'CA29': 'Rivas, Luz',
+    'CA30': 'Friedman, Laura',
+    'CA31': 'Cisneros, Gilbert',
+    'CA32': 'Sherman, Brad',
+    'CA33': 'Aguilar, Pete',
+    'CA34': 'Gomez, Jimmy',
+    'CA35': 'Torres, Norma',
+    'CA36': 'Lieu, Ted',
+    'CA37': 'Kamlager-Dove, Sydney',
+    'CA38': 'Sanchez, Linda',
+    'CA39': 'Takano, Mark',
+    'CA40': 'Kim, Young',
+    'CA41': 'Calvert, Ken',
+    'CA42': 'Garcia, Robert',
+    'CA43': 'Waters, Maxine',
+    'CA44': 'Barragan, Nanette',
+    'CA45': 'Tran, Derek',
+    'CA46': 'Correa, J.',
+    'CA47': 'Min, Dave',
+    'CA48': 'Issa, Darrell',
+    'CA49': 'Levin, Mike',
+    'CA50': 'Peters, Scott',
+    'CA51': 'Jacobs, Sara',
+    'CA52': 'Vargas, Juan',
+
+    // Colorado Districts
+    'CO01': 'DeGette, Diana',
+    'CO02': 'Neguse, Joe',
+    'CO03': 'Hurd, Jeff',
+    'CO04': 'Boebert, Lauren',
+    'CO05': 'Crank, Jeff',
+    'CO06': 'Crow, Jason',
+    'CO07': 'Pettersen, Brittany',
+    'CO08': 'Evans, Gabe',
+
+    // Connecticut Districts
+    'CT01': 'Larson, John',
+    'CT02': 'Courtney, Joe',
+    'CT03': 'DeLauro, Rosa',
+    'CT04': 'Himes, James',
+    'CT05': 'Hayes, Jahana',
+
+    // Delaware Districts
+    'DE00': 'McBride, Sarah',
+
+    // District of Columbia Districts
+    'DC00': 'Norton, Eleanor',
+
+    // Florida Districts
+    'FL01': 'Gaetz, Matt- Vacancy',
+    'FL02': 'Dunn, Neal',
+    'FL03': 'Cammack, Kat',
+    'FL04': 'Bean, Aaron',
+    'FL05': 'Rutherford, John',
+    'FL06': 'Waltz, Michael',
+    'FL07': 'Mills, Cory',
+    'FL08': 'Haridopolos, Mike',
+    'FL09': 'Soto, Darren',
+    'FL10': 'Frost, Maxwell',
+    'FL11': 'Webster, Daniel',
+    'FL12': 'Bilirakis, Gus',
+    'FL13': 'Luna, Anna Paulina',
+    'FL14': 'Castor, Kathy',
+    'FL15': 'Lee, Laurel',
+    'FL16': 'Buchanan, Vern',
+    'FL17': 'Steube, W.',
+    'FL18': 'Franklin, Scott',
+    'FL19': 'Donalds, Byron',
+    'FL20': 'Cherfilus-McCormick, Sheila',
+    'FL21': 'Mast, Brian',
+    'FL22': 'Frankel, Lois',
+    'FL23': 'Moskowitz, Jared',
+    'FL24': 'Wilson, Frederica',
+    'FL25': 'Wasserman Schultz, Debbie',
+    'FL26': 'Diaz-Balart, Mario',
+    'FL27': 'Salazar, Maria',
+    'FL28': 'Gimenez, Carlos',
+
+    // Georgia Districts
+    'GA01': 'Carter, Earl',
+    'GA02': 'Bishop, Sanford',
+    'GA03': 'Jack, Brian',
+    'GA04': 'Johnson, Henry',
+    'GA05': 'Williams, Nikema',
+    'GA06': 'McBath, Lucy',
+    'GA07': 'McCormick, Richard',
+    'GA08': 'Scott, Austin',
+    'GA09': 'Clyde, Andrew',
+    'GA10': 'Collins, Mike',
+    'GA11': 'Loudermilk, Barry',
+    'GA12': 'Allen, Rick',
+    'GA13': 'Scott, David',
+    'GA14': 'Greene, Marjorie',
+
+    // Guam Districts
+    'GU00': 'Moylan, James',
+
+    // Hawaii Districts
+    'HI01': 'Case, Ed',
+    'HI02': 'Tokuda, Jill',
+
+    // Idaho Districts
+    'ID01': 'Fulcher, Russ',
+    'ID02': 'Simpson, Michael',
+
+    // Illinois Districts
+    'IL01': 'Jackson, Jonathan',
+    'IL02': 'Kelly, Robin',
+    'IL03': 'Ramirez, Delia',
+    'IL04': 'Garcia, Jesus',
+    'IL05': 'Quigley, Mike',
+    'IL06': 'Casten, Sean',
+    'IL07': 'Davis, Danny',
+    'IL08': 'Krishnamoorthi, Raja',
+    'IL09': 'Schakowsky, Janice',
+    'IL10': 'Schneider, Bradley',
+    'IL11': 'Foster, Bill',
+    'IL12': 'Bost, Mike',
+    'IL13': 'Budzinski, Nikki',
+    'IL14': 'Underwood, Lauren',
+    'IL15': 'Miller, Mary',
+    'IL16': 'LaHood, Darin',
+    'IL17': 'Sorensen, Eric',
+
+    // Indiana Districts
+    'IN01': 'Mrvan, Frank',
+    'IN02': 'Yakym, Rudy',
+    'IN03': 'Stutzman, Marlin',
+    'IN04': 'Baird, James',
+    'IN05': 'Spartz, Victoria',
+    'IN06': 'Shreve, Jefferson',
+    'IN07': 'Carson, Andre',
+    'IN08': 'Messmer, Mark',
+    'IN09': 'Houchin, Erin',
+
+    // Iowa Districts
+    'IA01': 'Miller-Meeks, Mariannette',
+    'IA02': 'Hinson, Ashley',
+    'IA03': 'Nunn, Zachary',
+    'IA04': 'Feenstra, Randy',
+
+    // Kansas Districts
+    'KS01': 'Mann, Tracey',
+    'KS02': 'Schmidt, Derek',
+    'KS03': 'Davids, Sharice',
+    'KS04': 'Estes, Ron',
+
+    // Kentucky Districts
+    'KY01': 'Comer, James',
+    'KY02': 'Guthrie, Brett',
+    'KY03': 'McGarvey, Morgan',
+    'KY04': 'Massie, Thomas',
+    'KY05': 'Rogers, Harold',
+    'KY06': 'Barr, Andy',
+
+    // Louisiana Districts
+    'LA01': 'Scalise, Steve',
+    'LA02': 'Carter, Troy',
+    'LA03': 'Higgins, Clay',
+    'LA04': 'Johnson, Mike',
+    'LA05': 'Letlow, Julia',
+    'LA06': 'Fields, Cleo',
+
+    // Maine Districts
+    'ME01': 'Pingree, Chellie',
+    'ME02': 'Golden, Jared',
+
+    // Maryland Districts
+    'MD01': 'Harris, Andy',
+    'MD02': 'Olszewski, Johnny',
+    'MD03': 'Elfreth, Sarah',
+    'MD04': 'Ivey, Glenn',
+    'MD05': 'Hoyer, Steny',
+    'MD06': 'McClain Delaney, April',
+    'MD07': 'Mfume, Kweisi',
+    'MD08': 'Raskin, Jamie',
+
+    // Massachusetts Districts
+    'MA01': 'Neal, Richard',
+    'MA02': 'McGovern, James',
+    'MA03': 'Trahan, Lori',
+    'MA04': 'Auchincloss, Jake',
+    'MA05': 'Clark, Katherine',
+    'MA06': 'Moulton, Seth',
+    'MA07': 'Pressley, Ayanna',
+    'MA08': 'Lynch, Stephen',
+    'MA09': 'Keating, William',
+
+    // Michigan Districts
+    'MI01': 'Bergman, Jack',
+    'MI02': 'Moolenaar, John',
+    'MI03': 'Scholten, Hillary',
+    'MI04': 'Huizenga, Bill',
+    'MI05': 'Walberg, Tim',
+    'MI06': 'Dingell, Debbie',
+    'MI07': 'Barrett, Tom',
+    'MI08': 'McDonald Rivet, Kristen',
+    'MI09': 'McClain, Lisa',
+    'MI10': 'James, John',
+    'MI11': 'Stevens, Haley',
+    'MI12': 'Tlaib, Rashida',
+    'MI13': 'Thanedar, Shri',
+
+    // Minnesota Districts
+    'MN01': 'Finstad, Brad',
+    'MN02': 'Craig, Angie',
+    'MN03': 'Morrison, Kelly',
+    'MN04': 'McCollum, Betty',
+    'MN05': 'Omar, Ilhan',
+    'MN06': 'Emmer, Tom',
+    'MN07': 'Fischbach, Michelle',
+    'MN08': 'Stauber, Pete',
+
+    // Mississippi Districts
+    'MS01': 'Kelly, Trent',
+    'MS02': 'Thompson, Bennie',
+    'MS03': 'Guest, Michael',
+    
+    // Missouri Districts
+    'MO01': 'Bell, Wesley',
+    'MO02': 'Wagner, Ann',
+    'MO03': 'Onder, Robert',
+    'MO04': 'Alford, Mark',
+    'MO05': 'Cleaver, Emanuel',
+    'MO06': 'Graves, Sam',
+    'MO07': 'Burlison, Eric',
+    'MO08': 'Smith, Jason',
+
+    // Montana Districts
+    'MT01': 'Zinke, Ryan',
+    'MT02': 'Downing, Troy',
+
+    // Nebraska Districts
+    'NE01': 'Flood, Mike',
+    'NE02': 'Bacon, Don',
+    'NE03': 'Smith, Adrian',
+
+    // Nevada Districts
+    'NV01': 'Titus, Dina',
+    'NV02': 'Amodei, Mark',
+    'NV03': 'Lee, Susie',
+    'NV04': 'Horsford, Steven',
+
+    // New Hampshire Districts
+    'NH01': 'Pappas, Chris',
+    'NH02': 'Goodlander, Maggie',
+
+    // New Jersey Districts
+    'NJ01': 'Norcross, Donald',
+    'NJ02': 'Van Drew, Jefferson',
+    'NJ03': 'Conaway, Herbert',
+    'NJ04': 'Smith, Christopher',
+    'NJ05': 'Gottheimer, Josh',
+    'NJ06': 'Pallone, Frank',
+    'NJ07': 'Kean, Thomas',
+    'NJ08': 'Menendez, Robert',
+    'NJ09': 'Pou, Nellie',
+    'NJ10': 'McIver, LaMonica',
+    'NJ11': 'Sherrill, Mikie',
+    'NJ12': 'Watson Coleman, Bonnie',
+
+    // New Mexico Districts
+    'NM01': 'Stansbury, Melanie',
+    'NM02': 'Vasquez, Gabe',
+    'NM03': 'Leger Fernandez, Teresa',
+
+    // New York Districts
+    'NY01': 'Amo, Gabe',
+    'NY02': 'Magaziner, Seth',
+    'NY03': 'Suozzi, Thomas R.',
+    'NY04': 'Gillen, Laura',
+    'NY05': 'Meeks, Gregory',
+    'NY06': 'Meng, Grace',
+    'NY07': 'Velazquez, Nydia',
+    'NY08': 'Jeffries, Hakeem',
+    'NY09': 'Clarke, Yvette',
+    'NY10': 'Goldman, Daniel',
+    'NY11': 'Malliotakis, Nicole',
+    'NY12': 'Nadler, Jerrold',
+    'NY13': 'Espaillat, Adriano',
+    'NY14': 'Ocasio-Cortez, Alexandria',
+    'NY15': 'Torres, Ritchie',
+    'NY16': 'Latimer, George',
+    'NY17': 'Lawler, Michael',
+    'NY18': 'Ryan, Patrick',
+    'NY19': 'Riley, Josh',
+    'NY20': 'Tonko, Paul',
+    'NY21': 'Stefanik, Elise',
+    'NY22': 'Mannion, John',
+    'NY23': 'Langworthy, Nicholas',
+    'NY24': 'Tenney, Claudia',
+    'NY25': 'Morelle, Joseph',
+    'NY26': 'Kennedy, Timothy',
+
+    // North Carolina Districts
+    'NC01': 'Davis, Donald',
+    'NC02': 'Ross, Deborah',
+    'NC03': 'Murphy, Gregory',
+    'NC04': 'Foushee, Valerie',
+    'NC05': 'Foxx, Virginia',
+    'NC06': 'McDowell, Addison',
+    'NC07': 'Rouzer, David',
+    'NC08': 'Harris, Mark',
+    'NC09': 'Hudson, Richard',
+    'NC10': 'Harrigan, Pat',
+    'NC11': 'Edwards, Chuck',
+    'NC12': 'Adams, Alma',
+    'NC13': 'Knott, Brad',
+    'NC14': 'Moore, Tim',
+
+    // North Dakota Districts
+    'ND00': 'Fedorchak, Julie',
+
+    // Northern Mariana Islands Districts
+    'MP00': 'King-Hinds, Kimberlyn',
+
+    // Ohio Districts
+    'OH01': 'Landsman, Greg',
+    'OH02': 'Taylor, David',
+    'OH03': 'Beatty, Joyce',
+    'OH04': 'Jordan, Jim',
+    'OH05': 'Latta, Robert',
+    'OH06': 'Rulli, Michael A.',
+    'OH07': 'Miller, Max',
+    'OH08': 'Davidson, Warren',
+    'OH09': 'Kaptur, Marcy',
+    'OH10': 'Turner, Michael',
+    'OH11': 'Brown, Shontel',
+    'OH12': 'Balderson, Troy',
+    'OH13': 'Sykes, Emilia',
+    'OH14': 'Joyce, David',
+    'OH15': 'Carey, Mike',
+
+    // Oklahoma Districts
+    'OK01': 'Hern, Kevin',
+    'OK02': 'Brecheen, Josh',
+    'OK03': 'Lucas, Frank',
+    'OK04': 'Cole, Tom',
+    'OK05': 'Bice, Stephanie',
+
+    // Oregon Districts
+    'OR01': 'Bonamici, Suzanne',
+    'OR02': 'Bentz, Cliff',
+    'OR03': 'Dexter, Maxine',
+    'OR04': 'Hoyle, Val',
+    'OR05': 'Bynum, Janelle',
+    'OR06': 'Salinas, Andrea',
+
+    // Pennsylvania Districts
+    'PA01': 'Fitzpatrick, Brian',
+    'PA02': 'Boyle, Brendan',
+    'PA03': 'Evans, Dwight',
+    'PA04': 'Dean, Madeleine',
+    'PA05': 'Scanlon, Mary Gay',
+    'PA06': 'Houlahan, Chrissy',
+    'PA07': 'Mackenzie, Ryan',
+    'PA08': 'Bresnahan, Robert',
+    'PA09': 'Meuser, Daniel',
+    'PA10': 'Perry, Scott',
+    'PA11': 'Smucker, Lloyd',
+    'PA12': 'Lee, Summer',
+    'PA13': 'Joyce, John',
+    'PA14': 'Reschenthaler, Guy',
+    'PA15': 'Thompson, Glenn',
+    'PA16': 'Kelly, Mike',
+    'PA17': 'Deluzio, Christopher',
+
+    // Puerto Rico Districts
+    'PR00': 'Hernandez, Pablo',
+
+    // Rhode Island Districts
+    'RI01': 'Amo, Gabe',
+    'RI02': 'Magaziner, Seth',
+
+    // South Carolina Districts
+    'SC01': 'Mace, Nancy',
+    'SC02': 'Wilson, Joe',
+    'SC03': 'Biggs, Sheri',
+    'SC04': 'Timmons, William',
+    'SC05': 'Norman, Ralph',
+    'SC06': 'Clyburn, James',
+    'SC07': 'Fry, Russell',
+
+    // South Dakota Districts
+    'SD00': 'Johnson, Dusty',
+
+    // Tennessee Districts
+    'TN01': 'Harshbarger, Diana',
+    'TN02': 'Burchett, Tim',
+    'TN03': 'Fleischmann, Charles',
+    'TN04': 'DesJarlais, Scott',
+    'TN05': 'Ogles, Andrew',
+    'TN06': 'Rose, John',
+    'TN07': 'Green, Mark',
+    'TN08': 'Kustoff, David',
+    'TN09': 'Cohen, Steve',
+
+    // Texas Districts
+    'TX01': 'Moran, Nathaniel',
+    'TX02': 'Crenshaw, Dan',
+    'TX03': 'Self, Keith',
+    'TX04': 'Fallon, Pat',
+    'TX05': 'Gooden, Lance',
+    'TX06': 'Ellzey, Jake',
+    'TX07': 'Fletcher, Lizzie',
+    'TX08': 'Luttrell, Morgan',
+    'TX09': 'Green, Al',
+    'TX10': 'McCaul, Michael',
+    'TX11': 'Pfluger, August',
+    'TX12': 'Goldman, Craig',
+    'TX13': 'Jackson, Ronny',
+    'TX14': 'Weber, Randy',
+    'TX15': 'De La Cruz, Monica',
+    'TX16': 'Escobar, Veronica',
+    'TX17': 'Sessions, Pete',
+    'TX18': 'Turner, Sylvester',
+    'TX19': 'Arrington, Jodey',
+    'TX20': 'Castro, Joaquin',
+    'TX21': 'Roy, Chip',
+    'TX22': 'Nehls, Troy',
+    'TX23': 'Gonzales, Tony',
+    'TX24': 'Van Duyne, Beth',
+    'TX25': 'Williams, Roger',
+    'TX26': 'Gill, Brandon',
+    'TX27': 'Cloud, Michael',
+    'TX28': 'Cuellar, Henry',
+    'TX29': 'Garcia, Sylvia',
+    'TX30': 'Crockett, Jasmine',
+    'TX31': 'Carter, John',
+    'TX32': 'Johnson, Julie',
+    'TX33': 'Veasey, Marc',
+    'TX34': 'Gonzalez, Vicente',
+    'TX35': 'Casar, Greg',
+    'TX36': 'Babin, Brian',
+    'TX37': 'Doggett, Lloyd',
+    'TX38': 'Hunt, Wesley',
+
+    // Utah Districts
+    'UT01': 'Moore, Blake',
+    'UT02': 'Maloy, Celeste',
+    'UT03': 'Kennedy, Mike',
+    'UT04': 'Owens, Burgess',
+
+    // Vermont Districts
+    'VT00': 'Balint, Becca',
+
+    // Virginia Districts
+    'VA01': 'Wittman, Robert',
+    'VA02': 'Kiggans, Jennifer',
+    'VA03': 'Scott, Robert',
+    'VA04': 'McClellan, Jennifer',
+    'VA05': 'McGuire, John',
+    'VA06': 'Cline, Ben',
+    'VA07': 'Vindman, Eugene',
+    'VA08': 'Beyer, Donald',
+    'VA09': 'Griffith, H.',
+    'VA10': 'Subramanyam, Suhas',
+    'VA11': 'Connolly, Gerald',
+
+    // Virgin Islands Districts
+    'VI00': 'Plaskett, Stacey',
+
+    // Washington Districts
+    'WA01': 'DelBene, Suzan',
+    'WA02': 'Larsen, Rick',
+    'WA03': 'Perez, Marie',
+    'WA04': 'Newhouse, Dan',
+    'WA05': 'Baumgartner, Michael',
+    'WA06': 'Randall, Emily',
+    'WA07': 'Jayapal, Pramila',
+    'WA08': 'Schrier, Kim',
+    'WA09': 'Smith, Adam',
+    'WA10': 'Strickland, Marilyn',
+
+    // West Virginia Districts
+    'WV01': 'Miller, Carol',
+    'WV02': 'Moore, Riley',
+
+    // Wisconsin Districts
+    'WI01': 'Steil, Bryan',
+    'WI02': 'Pocan, Mark',
+    'WI03': 'Van Orden, Derrick',
+    'WI04': 'Moore, Gwen',
+    'WI05': 'Fitzgerald, Scott',
+    'WI06': 'Grothman, Glenn',
+    'WI07': 'Tiffany, Thomas',
+    'WI08': 'Wied, Tony',
+
+    // Wyoming Districts
+    'WY00': 'Hageman, Harriet',
+};
+
+
+        // Function to retrieve query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Get the state name from the URL
+        const stateName = getQueryParam('state');
+        console.log('State Name:', stateName); // Debugging
+
+        const stateDropdown = document.getElementById("stateDropdown");
+        const dependentDropdown = document.getElementById("dependentDropdown");
+        const signupForm = document.getElementById("signupForm");
+        const statusMessage = document.getElementById("statusMessage");
+
+        // Populate dependent dropdown based on selected state
+        stateDropdown.addEventListener("change", function() {
+          dependentDropdown.innerHTML = '<option value="" disabled selected>Select an option</option>';
+          const selectedState = stateDropdown.value;
+          if (stateOptions[selectedState]) {
+            stateOptions[selectedState].forEach(option => {
+              const opt = document.createElement("option");
+              opt.value = option;
+              opt.textContent = option;
+              dependentDropdown.appendChild(opt);
+            });
+          } else {
+            dependentDropdown.innerHTML = '<option value="" disabled selected>No representatives available</option>';
+          }
+        });
+
+        // Handle form submission via JavaScript
+        signupForm.addEventListener("submit", async function(event) {
+          event.preventDefault(); // Prevent normal form submission
+
+          // Gather data from the form
+          const formData = new FormData(signupForm);
+          const email = formData.get("email");
+          const state = formData.get("state");
+          const rep_name = formData.get("rep_name");
+
+          try {
+            // Send data to our serverless API endpoint
+            const response = await fetch("/api/submit", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, state, rep_name })
+            });
+
+            if (!response.ok) {
+              const err = await response.json();
+              throw new Error(err.error || "Unknown error");
+            }
+
+            const resJson = await response.json();
+            statusMessage.textContent = resJson.message;
+            statusMessage.style.color = "green";
+          } catch (error) {
+            statusMessage.textContent = "Error: " + error.message;
+            statusMessage.style.color = "red";
+          }
+        });
+
+        /**
+         * Adds hover and click interactivity to the loaded SVG.
+         * Only elements with IDs starting with the state's abbreviation are interactive.
+         * @param {SVGSVGElement} svgElement - The loaded SVG element.
+         * @param {string} stateAbbreviation - The abbreviation of the current state (e.g., 'TX').
+         */
+        function addSvgInteractivity(svgElement, stateAbbreviation) {
+            if (!svgElement) {
+                console.error('SVG element not found in the container.');
+                return;
+            }
+
+            const hoverInfo = document.getElementById('hover-info');
+            const clickInfo = document.getElementById('click-info');
+
+            // Variable to keep track of the currently selected element
+            let selectedElement = null;
+
+            // Function to handle mouseover event
+            function handleMouseOver(e) {
+                const target = e.target;
+                if (target && target.id && target.id.startsWith(stateAbbreviation)) { // Ensure the element has an ID starting with the state's abbreviation
+                    target.classList.add('highlight');
+                    hoverInfo.textContent = `Hovered ID: ${target.id}`;
+                }
+            }
+
+            // Function to handle mouseout event
+            function handleMouseOut(e) {
+                const target = e.target;
+                if (target && target.id && target.id.startsWith(stateAbbreviation)) { // Ensure the element has an ID starting with the state's abbreviation
+                    target.classList.remove('highlight');
+                    hoverInfo.textContent = 'Hover over a region to see its ID.';
+                }
+            }
+
+            // Function to handle click event
+            function handleClick(e) {
+                const target = e.target;
+                if (target && target.id && target.id.startsWith(stateAbbreviation)) { // Ensure the element has an ID starting with the state's abbreviation
+                    // If another element was previously selected, remove its 'selected' class
+                    if (selectedElement && selectedElement !== target) {
+                        selectedElement.classList.remove('selected');
+                    }
+
+                    // Toggle 'selected' class on the clicked element
+                    if (target.classList.contains('selected')) {
+                        target.classList.remove('selected');
+                        clickInfo.textContent = 'No region selected.';
+                        selectedElement = null;
+                    } else {
+                        target.classList.add('selected');
+                        clickInfo.textContent = `Selected ID: ${target.id}`;
+                        selectedElement = target;
+
+                        // Get the representative based on district ID
+                        const repName = districtToRep[target.id];
+                        if (repName) {
+                            // Ensure the dependentDropdown is populated
+                            if (stateOptions[stateAbbreviation].includes(repName)) {
+                                dependentDropdown.value = repName;
+                                clickInfo.textContent += ` | Representative Selected: ${repName}`;
+                            } else {
+                                // If the rep is not in the current options, optionally add it
+                                const newOption = document.createElement("option");
+                                newOption.value = repName;
+                                newOption.textContent = repName;
+                                dependentDropdown.appendChild(newOption);
+                                dependentDropdown.value = repName;
+                                clickInfo.textContent += ` | Representative Selected: ${repName} (Added)`;
+                            }
+                        } else {
+                            console.warn(`No representative mapped for district ID: ${target.id}`);
+                        }
+                    }
+                }
+            }
+
+            // Select all elements with an ID
+            const allElementsWithId = svgElement.querySelectorAll('[id]');
+
+            allElementsWithId.forEach(element => {
+                if (element.id.startsWith(stateAbbreviation)) {
+                    // Add event listeners to interactive elements
+                    element.addEventListener('mouseover', handleMouseOver);
+                    element.addEventListener('mouseout', handleMouseOut);
+                    element.addEventListener('click', handleClick);
+                } else {
+                    // Optionally, style non-interactive elements differently
+                    element.classList.add('non-interactive');
+                }
+            });
+        }
+
+        // Check if a state is specified in the URL and preselect it
+        if (stateName) {
+            const stateKey = stateName.toLowerCase().replace(/\s+/g, '-');
+            const stateAbbreviation = stateAbbreviations[stateKey];
+
+            if (!stateAbbreviation) {
+                console.error('Invalid state name provided.');
+                document.getElementById('state-container').innerHTML = '<p>Invalid state selected.</p>';
+                document.getElementById('state-title').textContent = 'Invalid State';
+            } else {
+                // Set the stateDropdown to the selected state
+                stateDropdown.value = stateAbbreviation; // Preselect the state
+                stateDropdown.dispatchEvent(new Event('change')); // Trigger change to populate dependentDropdown
+
+                // Optionally, preselect a representative if provided
+                const repName = getQueryParam('rep');
+                if (repName && stateOptions[stateAbbreviation]?.includes(repName)) {
+                    // Wait for the dependentDropdown to be populated
+                    setTimeout(() => {
+                        dependentDropdown.value = repName;
+                    }, 100); // Adjust timeout as needed based on SVG loading
+                }
+
+                // Format display name (capitalize first letter and replace hyphens with spaces)
+                const displayName = stateName.charAt(0).toUpperCase() + stateName.slice(1).replace(/-/g, ' ');
+                document.getElementById('state-title').textContent = `${displayName} Details`;
+
+                // Construct the SVG path
+                const svgPath = `states/${stateKey}.svg`;
+                console.log('SVG Path:', svgPath); // Debugging
+
+                // Fetch and display the SVG
+                fetch(svgPath)
+                    .then(response => {
+                        console.log('Fetch Response Status:', response.status); // Debugging
+                        if (!response.ok) {
+                            throw new Error('SVG not found');
+                        }
+                        return response.text();
+                    })
+                    .then(svgContent => {
+                        const svgContainer = document.getElementById('state-container');
+                        svgContainer.innerHTML = svgContent;
+
+                        // After SVG is loaded, add event listeners
+                        addSvgInteractivity(svgContainer.querySelector('svg'), stateAbbreviation);
+                    })
+                    .catch(error => {
+                        const svgContainer = document.getElementById('state-container');
+                        svgContainer.innerHTML = '<p>SVG not available.</p>';
+                        console.error(error);
+                    });
+
+                // Optionally, load additional information about the state
+                const stateInfo = document.getElementById('click-info');
+                stateInfo.innerHTML = `<p>Click on a region to select it.</p>`;
+            }
+        } else {
+            // Handle the case where no state is specified
+            document.getElementById('state-container').innerHTML = '<p>No state selected.</p>';
+            document.getElementById('state-title').textContent = 'Select a State';
+        }
+    </script>
+</body>
+</html>
