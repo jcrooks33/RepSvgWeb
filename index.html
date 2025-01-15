@@ -1486,7 +1486,7 @@
   
     // ===== 0) Load JSON on page load =====
     window.addEventListener("DOMContentLoaded", () => {
-      fetch("data/stateOptions.json")
+      fetch("data/statenameToRep.json")
         .then((response) => {
           if (!response.ok) {
             throw new Error("Failed to load repsByState.json");
