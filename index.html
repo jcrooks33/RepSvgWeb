@@ -1647,8 +1647,46 @@
         foundOption.selected = true;
       }
     }
+
+    // form submission
+
+    
+
+  </script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const supabaseUrl = SUPABASE_URL;
+    const supabaseAnonKey = SUPABASE_ANON_KEY;    
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  
+    const signupForm = document.getElementById("signupForm");
+  
+    signupForm.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      
+      // Gather user input
+      const formData = new FormData(signupForm);
+      const email = formData.get("email");
+      const state = formData.get("state");
+      const rep_name = formData.get("rep_name");
+  
+      try {
+        // Insert directly into Supabase
+        const { data, error } = await supabase
+          .from("Signups")
+          .insert([{ email, state, rep_name }]);
+  
+        if (error) throw error;
+        alert("Signup successful!");
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    });
   </script>
   
+  <p id="statusMessage" style="margin-top: 1em;"></p>
+
   
   
 </body>
