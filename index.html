@@ -185,6 +185,24 @@
       fill: #b3ced0;
       stroke: #999999;
     }
+    
+    /* Single-state container styles */
+    .state-svg-container svg path,
+    .state-svg-container svg polygon {
+    fill: #d1dbdd !important; 
+
+    cursor: pointer;
+    }
+
+    .state-svg-container svg path:hover,
+    .state-svg-container svg polygon:hover,
+    .state-svg-container svg path:focus,
+    .state-svg-container svg polygon:focus {
+    fill: #b3ced0 !important;
+
+    outline: none;
+    }
+
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -1385,6 +1403,7 @@
                     </path>
                 </g>
         </svg>
+        <div class="state-svg-container"></div>
 </div>
 <div class="form-container">
     <form id="signupForm" aria-labelledby="signupFormTitle">
@@ -1474,6 +1493,16 @@
     </form>
     </div>
 </div>
+<div id="districtHoverInfo" style="
+  display: none; 
+  position: absolute; 
+  background: white; 
+  border: 1px solid #ccc; 
+  padding: 5px; 
+  pointer-events: none; 
+  z-index: 9999;
+"></div>
+
   <!-- FOOTER -->
   <footer>
     &copy; 2025 RepReport. All rights reserved.
@@ -1483,75 +1512,65 @@
 
   <script>
     let repsByState = {};
+    let districtToRep = {};
   
-    // ===== 0) Load JSON on page load =====
     window.addEventListener("DOMContentLoaded", () => {
       fetch("data/statenameToRep.json")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to load repsByState.json");
-          }
-          return response.json();
-        })
+        .then((response) => response.json())
         .then((data) => {
           repsByState = data;
         })
         .catch((error) => {
           console.error("Error loading JSON data:", error);
         });
+        fetch("data/districtToRep.json")
+        .then((response) => response.json())
+        .then((data) => {
+          districtToRep = data;
+        })
+        .catch((error) => {
+          console.error("Error loading district to rep JSON data:", error);
+        });
     });
   
-    // ===== 1) Optional: Hover logic for big map =====
+    // Big map references
     const usaMap = document.getElementById("usa-map");
     const hoverInfo = document.getElementById("hover-info");
   
-    if (usaMap && hoverInfo) {
-      usaMap.addEventListener("mouseover", (event) => {
-        const targetGroup = event.target.closest("g[id]");
-        if (targetGroup) {
-          hoverInfo.textContent = `Hovered state: ${targetGroup.id}`;
-        }
-      });
-  
-      usaMap.addEventListener("mouseout", () => {
-        hoverInfo.textContent = "Hover over a state to see details.";
-      });
-    }
-  
-    // ===== 2) Click on map to load a state’s SVG and auto-fill dropdown =====
+    // Form references
     const stateDropdown = document.getElementById("stateDropdown");
     const dependentDropdown = document.getElementById("dependentDropdown");
     const stateDetails = document.getElementById("stateDetails");
   
+    // --- 2) Load single-state SVG ---
     if (usaMap) {
       usaMap.addEventListener("click", (event) => {
         const targetGroup = event.target.closest("g[id]");
         if (targetGroup) {
-          // Convert from e.g. "Alabama" or "AL" => "alabama"
+          usaMap.style.display = "none";  // Hide big map
           const clickedStateName = targetGroup.id.toLowerCase();
           const filePath = `states/${clickedStateName}.svg`;
   
-          // Fetch state’s SVG file
           fetch(filePath)
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(`Could not load ${filePath}`);
-              }
-              return response.text();
-            })
+            .then((res) => res.text())
             .then((svgMarkup) => {
-              // Replace the big map with the clicked state’s SVG
-              document.querySelector(".svg-container").innerHTML = svgMarkup;
+              // Insert single-state SVG
+              document.querySelector(".state-svg-container").innerHTML = svgMarkup;
   
-              // Auto-fill the form dropdown with the clicked state
+              // Now attach district event listeners
+              const stateSvg = document.querySelector(".state-svg-container svg");
+              const districtPaths = stateSvg.querySelectorAll("path[id], polygon[id]");
+  
+              districtPaths.forEach((districtEl) => {
+                districtEl.addEventListener("mouseover", handleDistrictMouseOver);
+                districtEl.addEventListener("mousemove", handleDistrictMouseMove);
+                districtEl.addEventListener("mouseout", handleDistrictMouseOut);
+                districtEl.addEventListener("click", handleDistrictClick);
+              });
+  
+              // Update form dropdown
               stateDropdown.value = clickedStateName;
-  
-              // Show #stateDetails if you want
-              if (stateDetails) {
-                stateDetails.style.display = "block";
-              }
-  
-              // Trigger 'change' to update the reps in the dependent dropdown
+              if (stateDetails) stateDetails.style.display = "block";
               stateDropdown.dispatchEvent(new Event("change"));
             })
             .catch((error) => {
@@ -1561,31 +1580,24 @@
       });
     }
   
-    // ===== 3) Populate Representative dropdown on state selection =====
+    // --- 3) Populate representative dropdown (existing code) ---
     stateDropdown.addEventListener("change", (event) => {
-      // e.g. user selected <option value="alabama">
+      // e.g. "alabama"
       const selectedStateKey = event.target.value.toLowerCase();
-      console.log(repsByState);
-
-      // Fetch the array of reps from the JSON
       const repsList = repsByState[selectedStateKey] || [];
-      console.log(repsList);
-
-      // Clear existing <option>s
-      dependentDropdown.innerHTML = "";
   
+      // Rebuild options in dependentDropdown
+      dependentDropdown.innerHTML = "";
       if (repsList.length === 0) {
-        // No reps found
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "No representatives found";
-        option.disabled = true;
-        option.selected = true;
-        dependentDropdown.appendChild(option);
+        const noRepsOpt = document.createElement("option");
+        noRepsOpt.value = "";
+        noRepsOpt.textContent = "No representatives found";
+        noRepsOpt.disabled = true;
+        noRepsOpt.selected = true;
+        dependentDropdown.appendChild(noRepsOpt);
         return;
       }
   
-      // Add a placeholder
       const placeholderOption = document.createElement("option");
       placeholderOption.value = "";
       placeholderOption.textContent = "Select a Representative";
@@ -1593,15 +1605,50 @@
       placeholderOption.selected = true;
       dependentDropdown.appendChild(placeholderOption);
   
-      // Populate the reps
       repsList.forEach((repName) => {
-        const option = document.createElement("option");
-        option.value = repName;
-        option.textContent = repName;
-        dependentDropdown.appendChild(option);
+        const opt = document.createElement("option");
+        opt.value = repName;
+        opt.textContent = repName;
+        dependentDropdown.appendChild(opt);
       });
     });
+  
+    // --- District Hover/Click Handlers ---
+    function handleDistrictMouseOver(event) {
+      const tooltip = document.getElementById("districtHoverInfo");
+      const districtId = event.target.id; 
+      const repName = districtToRep[districtId] || "(Unknown Rep)";
+      tooltip.textContent = repName;
+      tooltip.style.display = "block";
+    }
+  
+    function handleDistrictMouseMove(event) {
+      const tooltip = document.getElementById("districtHoverInfo");
+      tooltip.style.left = (event.pageX + 10) + "px";
+      tooltip.style.top = (event.pageY + 10) + "px";
+    }
+  
+    function handleDistrictMouseOut() {
+      const tooltip = document.getElementById("districtHoverInfo");
+      tooltip.style.display = "none";
+    }
+  
+    function handleDistrictClick(event) {
+      const districtId = event.target.id;
+      const repName = districtToRep[districtId];
+      if (!repName) return;
+  
+      const dropdown = document.getElementById("dependentDropdown");
+      // Find matching <option value="Moore, Barry">, etc.
+      const foundOption = Array.from(dropdown.options).find(
+        (opt) => opt.value === repName
+      );
+      if (foundOption) {
+        foundOption.selected = true;
+      }
+    }
   </script>
+  
   
   
 </body>
