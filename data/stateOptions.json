@@ -1,5 +1,5 @@
 {
-    "AL": [
+    "alabama": [
         "Moore, Barry",
         "Figures, Shomari",
         "Rogers, Mike",
@@ -8,10 +8,10 @@
         "Palmer, Gary",
         "Sewell, Terri"
     ],
-    "AK": [
+    "alaska": [
         "Begich, Nicholas"
     ],
-    "AZ": [
+    "arizona": [
         "Schweikert, David",
         "Crane, Elijah",
         "Ansari, Yassamin",
@@ -22,13 +22,13 @@
         "Hamadeh, Abraham",
         "Gosar, Paul"
     ],
-    "AR": [
+    "arkansas": [
         "Crawford, Eric",
         "Hill, J.",
         "Womack, Steve",
         "Westerman, Bruce"
     ],
-    "CA": [
+    "california": [
         "LaMalfa, Doug",
         "Huffman, Jared",
         "Kiley, Kevin",
@@ -82,7 +82,7 @@
         "Jacobs, Sara",
         "Vargas, Juan"
     ],
-    "CO": [
+    "colorado": [
         "DeGette, Diana",
         "Neguse, Joe",
         "Hurd, Jeff",
@@ -92,20 +92,20 @@
         "Pettersen, Brittany",
         "Evans, Gabe"
     ],
-    "CT": [
+    "connecticut": [
         "Larson, John",
         "Courtney, Joe",
         "DeLauro, Rosa",
         "Himes, James",
         "Hayes, Jahana"
     ],
-    "DE": [
+    "deleware": [
         "McBride, Sarah"
     ],
     "DC": [
         "Norton, Eleanor"
     ],
-    "FL": [
+    "florida": [
         "Gaetz, Matt- Vacancy",
         "Dunn, Neal",
         "Cammack, Kat",
@@ -135,7 +135,7 @@
         "Salazar, Maria",
         "Gimenez, Carlos"
     ],
-    "GA": [
+    "georgia": [
         "Carter, Earl",
         "Bishop, Sanford",
         "Jack, Brian",
@@ -154,15 +154,15 @@
     "GU": [
         "Moylan, James"
     ],
-    "HI": [
+    "hawaii": [
         "Case, Ed",
         "Tokuda, Jill"
     ],
-    "ID": [
+    "idaho": [
         "Fulcher, Russ",
         "Simpson, Michael"
     ],
-    "IL": [
+    "illinios": [
         "Jackson, Jonathan",
         "Kelly, Robin",
         "Ramirez, Delia",
@@ -181,7 +181,7 @@
         "LaHood, Darin",
         "Sorensen, Eric"
     ],
-    "IN": [
+    "indiana": [
         "Mrvan, Frank",
         "Yakym, Rudy",
         "Stutzman, Marlin",
@@ -192,19 +192,19 @@
         "Messmer, Mark",
         "Houchin, Erin"
     ],
-    "IA": [
+    "iowa": [
         "Miller-Meeks, Mariannette",
         "Hinson, Ashley",
         "Nunn, Zachary",
         "Feenstra, Randy"
     ],
-    "KS": [
+    "kansas": [
         "Mann, Tracey",
         "Schmidt, Derek",
         "Davids, Sharice",
         "Estes, Ron"
     ],
-    "KY": [
+    "kentucky": [
         "Comer, James",
         "Guthrie, Brett",
         "McGarvey, Morgan",
@@ -212,7 +212,7 @@
         "Rogers, Harold",
         "Barr, Andy"
     ],
-    "LA": [
+    "louisana": [
         "Scalise, Steve",
         "Carter, Troy",
         "Higgins, Clay",
@@ -220,11 +220,11 @@
         "Letlow, Julia",
         "Fields, Cleo"
     ],
-    "ME": [
+    "maine": [
         "Pingree, Chellie",
         "Golden, Jared"
     ],
-    "MD": [
+    "maryland": [
         "Harris, Andy",
         "Olszewski, Johnny",
         "Elfreth, Sarah",
@@ -234,7 +234,7 @@
         "Mfume, Kweisi",
         "Raskin, Jamie"
     ],
-    "MA": [
+    "massachusetts": [
         "Neal, Richard",
         "McGovern, James",
         "Trahan, Lori",
@@ -245,7 +245,7 @@
         "Lynch, Stephen",
         "Keating, William"
     ],
-    "MI": [
+    "michigan": [
         "Bergman, Jack",
         "Moolenaar, John",
         "Scholten, Hillary",
@@ -260,7 +260,7 @@
         "Tlaib, Rashida",
         "Thanedar, Shri"
     ],
-    "MN": [
+    "minnesota": [
         "Finstad, Brad",
         "Craig, Angie",
         "Morrison, Kelly",
@@ -270,13 +270,13 @@
         "Fischbach, Michelle",
         "Stauber, Pete"
     ],
-    "MS": [
+    "mississippi": [
         "Kelly, Trent",
         "Thompson, Bennie",
         "Guest, Michael",
         "Ezell, Mike"
     ],
-    "MO": [
+    "missouri": [
         "Bell, Wesley",
         "Wagner, Ann",
         "Onder, Robert",
@@ -286,26 +286,26 @@
         "Burlison, Eric",
         "Smith, Jason"
     ],
-    "MT": [
+    "montana": [
         "Zinke, Ryan",
         "Downing, Troy"
     ],
-    "NE": [
+    "nebraska": [
         "Flood, Mike",
         "Bacon, Don",
         "Smith, Adrian"
     ],
-    "NV": [
+    "nevada": [
         "Titus, Dina",
         "Amodei, Mark",
         "Lee, Susie",
         "Horsford, Steven"
     ],
-    "NH": [
+    "new-hampshire": [
         "Pappas, Chris",
         "Goodlander, Maggie"
     ],
-    "NJ": [
+    "new-jersey": [
         "Norcross, Donald",
         "Van Drew, Jefferson",
         "Conaway, Herbert",
@@ -319,12 +319,12 @@
         "Sherrill, Mikie",
         "Watson Coleman, Bonnie"
     ],
-    "NM": [
+    "new-mexico": [
         "Stansbury, Melanie",
         "Vasquez, Gabe",
         "Leger Fernandez, Teresa"
     ],
-    "NY": [
+    "new-york": [
         "LaLota, Nick",
         "Garbarino, Andrew",
         "Suozzi, Thomas R.",
@@ -352,7 +352,7 @@
         "Morelle, Joseph",
         "Kennedy, Timothy"
     ],
-    "NC": [
+    "north-carolina": [
         "Davis, Donald",
         "Ross, Deborah",
         "Murphy, Gregory",
@@ -368,13 +368,13 @@
         "Knott, Brad",
         "Moore, Tim"
     ],
-    "ND": [
+    "north-dakota": [
         "Fedorchak, Julie"
     ],
     "MP": [
         "King-Hinds, Kimberlyn"
     ],
-    "OH": [
+    "ohio": [
         "Landsman, Greg",
         "Taylor, David",
         "Beatty, Joyce",
@@ -391,14 +391,14 @@
         "Joyce, David",
         "Carey, Mike"
     ],
-    "OK": [
+    "oklahoma": [
         "Hern, Kevin",
         "Brecheen, Josh",
         "Lucas, Frank",
         "Cole, Tom",
         "Bice, Stephanie"
     ],
-    "OR": [
+    "oregon": [
         "Bonamici, Suzanne",
         "Bentz, Cliff",
         "Dexter, Maxine",
@@ -406,7 +406,7 @@
         "Bynum, Janelle",
         "Salinas, Andrea"
     ],
-    "PA": [
+    "pennslyvania": [
         "Fitzpatrick, Brian",
         "Boyle, Brendan",
         "Evans, Dwight",
@@ -428,11 +428,11 @@
     "PR": [
         "Hernandez, Pablo"
     ],
-    "RI": [
+    "rhode-island": [
         "Amo, Gabe",
         "Magaziner, Seth"
     ],
-    "SC": [
+    "south-carolina": [
         "Mace, Nancy",
         "Wilson, Joe",
         "Biggs, Sheri",
@@ -441,10 +441,10 @@
         "Clyburn, James",
         "Fry, Russell"
     ],
-    "SD": [
+    "south-dakota": [
         "Johnson, Dusty"
     ],
-    "TN": [
+    "tennessee": [
         "Harshbarger, Diana",
         "Burchett, Tim",
         "Fleischmann, Charles",
@@ -455,7 +455,7 @@
         "Kustoff, David",
         "Cohen, Steve"
     ],
-    "TX": [
+    "texas": [
         "Moran, Nathaniel",
         "Crenshaw, Dan",
         "Self, Keith",
@@ -495,16 +495,16 @@
         "Doggett, Lloyd",
         "Hunt, Wesley"
     ],
-    "UT": [
+    "utah": [
         "Moore, Blake",
         "Maloy, Celeste",
         "Kennedy, Mike",
         "Owens, Burgess"
     ],
-    "VT": [
+    "vermont": [
         "Balint, Becca"
     ],
-    "VA": [
+    "virginia": [
         "Wittman, Robert",
         "Kiggans, Jennifer",
         "Scott, Robert",
@@ -520,7 +520,7 @@
     "VI": [
         "Plaskett, Stacey"
     ],
-    "WA": [
+    "washington": [
         "DelBene, Suzan",
         "Larsen, Rick",
         "Perez, Marie",
@@ -532,11 +532,11 @@
         "Smith, Adam",
         "Strickland, Marilyn"
     ],
-    "WV": [
+    "west-virginia": [
         "Miller, Carol",
         "Moore, Riley"
     ],
-    "WI": [
+    "wisconsin": [
         "Steil, Bryan",
         "Pocan, Mark",
         "Van Orden, Derrick",
@@ -546,7 +546,7 @@
         "Tiffany, Thomas",
         "Wied, Tony"
     ],
-    "WY": [
+    "wyoming": [
         "Hageman, Harriet"
     ]
 }
