@@ -81,23 +81,29 @@
       color: var(--primary-color);
     }
 
-    /* Second Bar Styling */
-    .second-bar {
-      margin: 10px 30px;
-      padding: 20px 30px;
-      background-color: var(--second-bar-color);
-      border-radius: var(--second-bar-border-radius);
-      color: var(--secondary-color);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
 
-    .second-bar-title {
-      font-size: 1.8rem;
-      font-weight: 500;
-      text-align: center;
-    }
+/* Second Bar Styling */
+.second-bar {
+  margin: 10px 30px;
+  padding: 10px 20px; /* Adjusted padding to match header */
+  background-color: white; /* Matches the navbar's background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Matches the header's shadow */
+  border-radius: var(--second-bar-border-radius);
+  color: var(--primary-color); /* Same as navbar text color */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Centers content like the header */
+}
+
+/* Second Bar Title Styling */
+.second-bar-title {
+  font-size: 1.5rem; /* Adjusted font size to match navbar title */
+  font-weight: bold; /* Matches navbar title */
+  color: var(--primary-color); /* Same as navbar title color */
+  text-align: center;
+  margin: 0; /* Remove additional margin */
+}
 
 /* Container for the second bar content (SVG + text) */
 .second-bar-content {
@@ -150,16 +156,16 @@
       min-height: 150px;
     }
 
-    /* Footer Styling */
-    footer {
-      margin-top: auto; /* Pushes footer to the bottom */
-      background-color: var(--second-bar-color);
-      color: var(--secondary-color);
-      text-align: center;
-      padding: 15px 0;
-      font-size: 0.9rem;
-      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    }
+footer {
+  margin-top: auto; /* Keeps the footer at the bottom */
+  background-color: white; /* Matches the navbar's background */
+  color: var(--primary-color); /* Matches the navbar's text color */
+  text-align: center;
+  padding: 10px 20px; /* Adjusted padding to match the header */
+  font-size: 0.9rem; /* Keeps the smaller font size */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Matches the navbar's shadow */
+  border-top: 1px solid var(--secondary-color); /* Optional subtle border for separation */
+}
 
     /* Main content area */
     main {
@@ -202,6 +208,105 @@
 
     outline: none;
     }
+
+    /* Style the form container */
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Form title */
+.form-container h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+/* Input fields */
+.form-container input[type="email"],
+.form-container select {
+  width: calc(100% - 20px);
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s;
+}
+
+.form-container input[type="email"]:focus,
+.form-container select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Button styling */
+.form-container button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.form-container button[type="submit"]:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+/* Google Sign-In button */
+.form-container .google-signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-container .google-signin:hover {
+  background-color: #f7f7f7;
+}
+
+/* Form spacing */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .form-container button[type="submit"] {
+    padding: 8px;
+  }
+}
 
 
     /* Responsive adjustments */
