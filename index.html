@@ -1511,91 +1511,131 @@ footer {
         <div class="state-svg-container"></div>
 </div>
 <div class="form-container">
-    <form id="signupForm" aria-labelledby="signupFormTitle">
-      <h2 id="signupFormTitle">Sign Up</h2>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label for="email">Email Address:</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            placeholder="Enter your email" 
-            required 
-            aria-required="true"
-          >
-        </div>
+  <form 
+  id="signupForm" 
+  name="mc-embedded-subscribe-form"
+  class="validate" 
+  action="https://app.us17.list-manage.com/subscribe/post?u=4c0f3950dc0f76487d3277a17&amp;id=52679f637a&amp;f_id=0068c2e1f0"
+  method="post"
+  target="_blank"
+  novalidate
+  aria-labelledby="signupFormTitle"
+>
+  <h2 id="signupFormTitle">Sign Up</h2>
+  
+  <div class="form-row">
+    <div class="form-group">
+      <label for="email">Email Address:</label>
+      <!-- IMPORTANT: name="EMAIL" for Mailchimp -->
+      <input
+        type="email"
+        id="email"
+        name="EMAIL"
+        placeholder="Enter your email"
+        required
+        aria-required="true"
+      />
+    </div>
 
-        <div class="form-group">
-          <label for="stateDropdown">Select Your State:</label>
-          <select id="stateDropdown" name="state" required aria-required="true">
-            <option value="" disabled selected>State</option>
-            <option value="alabama">Alabama</option>
-            <option value="alaska">Alaska</option>
-            <option value="arizona">Arizona</option>
-            <option value="arkansas">Arkansas</option>
-            <option value="california">California</option>
-            <option value="colorado">Colorado</option>
-            <option value="connecticut">Connecticut</option>
-            <option value="delaware">Delaware</option>
-            <option value="florida">Florida</option>
-            <option value="georgia">Georgia</option>
-            <option value="hawaii">Hawaii</option>
-            <option value="idaho">Idaho</option>
-            <option value="illinois">Illinois</option>
-            <option value="indiana">Indiana</option>
-            <option value="iowa">Iowa</option>
-            <option value="kansas">Kansas</option>
-            <option value="kentucky">Kentucky</option>
-            <option value="louisiana">Louisiana</option>
-            <option value="maine">Maine</option>
-            <option value="maryland">Maryland</option>
-            <option value="massachusetts">Massachusetts</option>
-            <option value="michigan">Michigan</option>
-            <option value="minnesota">Minnesota</option>
-            <option value="mississippi">Mississippi</option>
-            <option value="missouri">Missouri</option>
-            <option value="montana">Montana</option>
-            <option value="nebraska">Nebraska</option>
-            <option value="nevada">Nevada</option>
-            <option value="new-hampshire">New Hampshire</option>
-            <option value="new-jersey">New Jersey</option>
-            <option value="new-mexico">New Mexico</option>
-            <option value="new-york">New York</option>
-            <option value="north-carolina">North Carolina</option>
-            <option value="north-dakota">North Dakota</option>
-            <option value="ohio">Ohio</option>
-            <option value="oklahoma">Oklahoma</option>
-            <option value="oregon">Oregon</option>
-            <option value="pennsylvania">Pennsylvania</option>
-            <option value="rhode-island">Rhode Island</option>
-            <option value="south-carolina">South Carolina</option>
-            <option value="south-dakota">South Dakota</option>
-            <option value="tennessee">Tennessee</option>
-            <option value="texas">Texas</option>
-            <option value="utah">Utah</option>
-            <option value="vermont">Vermont</option>
-            <option value="virginia">Virginia</option>
-            <option value="washington">Washington</option>
-            <option value="west-virginia">West Virginia</option>
-            <option value="wisconsin">Wisconsin</option>
-            <option value="wyoming">Wyoming</option>
-        </select>
-        
-        </div>
+    <div class="form-group">
+      <label for="stateDropdown">Select Your State:</label>
+      <!-- IMPORTANT: name="MMERGE8" so Mailchimp stores it in the "State" merge field -->
+      <select
+        id="stateDropdown"
+        name="MMERGE8"
+        required
+        aria-required="true"
+      >
+      <option value="" disabled selected>State</option>
+      <option value="alabama">Alabama</option>
+      <option value="alaska">Alaska</option>
+      <option value="arizona">Arizona</option>
+      <option value="arkansas">Arkansas</option>
+      <option value="california">California</option>
+      <option value="colorado">Colorado</option>
+      <option value="connecticut">Connecticut</option>
+      <option value="delaware">Delaware</option>
+      <option value="florida">Florida</option>
+      <option value="georgia">Georgia</option>
+      <option value="hawaii">Hawaii</option>
+      <option value="idaho">Idaho</option>
+      <option value="illinois">Illinois</option>
+      <option value="indiana">Indiana</option>
+      <option value="iowa">Iowa</option>
+      <option value="kansas">Kansas</option>
+      <option value="kentucky">Kentucky</option>
+      <option value="louisiana">Louisiana</option>
+      <option value="maine">Maine</option>
+      <option value="maryland">Maryland</option>
+      <option value="massachusetts">Massachusetts</option>
+      <option value="michigan">Michigan</option>
+      <option value="minnesota">Minnesota</option>
+      <option value="mississippi">Mississippi</option>
+      <option value="missouri">Missouri</option>
+      <option value="montana">Montana</option>
+      <option value="nebraska">Nebraska</option>
+      <option value="nevada">Nevada</option>
+      <option value="new-hampshire">New Hampshire</option>
+      <option value="new-jersey">New Jersey</option>
+      <option value="new-mexico">New Mexico</option>
+      <option value="new-york">New York</option>
+      <option value="north-carolina">North Carolina</option>
+      <option value="north-dakota">North Dakota</option>
+      <option value="ohio">Ohio</option>
+      <option value="oklahoma">Oklahoma</option>
+      <option value="oregon">Oregon</option>
+      <option value="pennsylvania">Pennsylvania</option>
+      <option value="rhode-island">Rhode Island</option>
+      <option value="south-carolina">South Carolina</option>
+      <option value="south-dakota">South Dakota</option>
+      <option value="tennessee">Tennessee</option>
+      <option value="texas">Texas</option>
+      <option value="utah">Utah</option>
+      <option value="vermont">Vermont</option>
+      <option value="virginia">Virginia</option>
+      <option value="washington">Washington</option>
+      <option value="west-virginia">West Virginia</option>
+      <option value="wisconsin">Wisconsin</option>
+      <option value="wyoming">Wyoming</option>
+      </select>
+    </div>
 
-        <div class="form-group">
-          <label for="dependentDropdown">Representative:</label>
-          <select id="dependentDropdown" name="rep_name" required aria-required="true">
-            <option value="" disabled selected>Please select a state first</option>
-          </select>
-        </div>
-        <div class="form-group button-group">
-          <button type="submit">Sign Up</button>
-        </div>
-      </div>
-    </form>
+    <div class="form-group">
+      <label for="dependentDropdown">Representative:</label>
+      <!-- IMPORTANT: name="MMERGE9" so Mailchimp stores it in the "Representative" merge field -->
+      <select
+        id="dependentDropdown"
+        name="MMERGE9"
+        required
+        aria-required="true"
+      >
+        <option value="" disabled selected>Please select a state first</option>
+      </select>
+    </div>
+
+    <!-- Anti-bot hidden input required by Mailchimp -->
+    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+      <input
+        type="text"
+        name="b_4c0f3950dc0f76487d3277a17_52679f637a"
+        tabindex="-1"
+        value=""
+      />
+    </div>
+
+    <div class="form-group button-group">
+      <!-- We can use the same ID Mailchimp uses, or keep your own.
+           If you keep your own ID, that’s also fine—Mailchimp will still receive the data. -->
+      <button
+        type="submit"
+        id="mc-embedded-subscribe"
+        class="button"
+      >
+        Sign Up
+      </button>
+    </div>
+  </div>
+</form>
     </div>
 </div>
 <div id="districtHoverInfo" style="
@@ -1758,37 +1798,7 @@ footer {
     
 
   </script>
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    const supabaseUrl = 'https://qcwemeiyfyaicxwscbmw.supabase.co';
-    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjd2VtZWl5ZnlhaWN4d3NjYm13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0NzE0MDgsImV4cCI6MjA1MjA0NzQwOH0.-FY3o3Cr_N2j4WgJgjA-fX9sNYj87RmsNPNlGFMTXnk';    
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-  
-    const signupForm = document.getElementById("signupForm");
-  
-    signupForm.addEventListener("submit", async function(event) {
-      event.preventDefault();
-      
-      // Gather user input
-      const formData = new FormData(signupForm);
-      const email = formData.get("email");
-      const state = formData.get("state");
-      const rep_name = formData.get("rep_name");
-  
-      try {
-        // Insert directly into Supabase
-        const { data, error } = await supabase
-          .from("Signups")
-          .insert([{ email, state, rep_name }]);
-  
-        if (error) throw error;
-        alert("Signup successful!");
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
-    });
-  </script>
   
   <p id="statusMessage" style="margin-top: 1em;"></p>
 
