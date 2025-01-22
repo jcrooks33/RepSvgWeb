@@ -1620,7 +1620,7 @@ footer {
     let districtToRep = {};
   
     window.addEventListener("DOMContentLoaded", () => {
-      fetch("data/statenameToRep.json")
+      fetch("data/stateToRep.json")
         .then((response) => response.json())
         .then((data) => {
           repsByState = data;
@@ -1628,7 +1628,7 @@ footer {
         .catch((error) => {
           console.error("Error loading JSON data:", error);
         });
-        fetch("data/districtToRep.json")
+        fetch("data/dToRep.json")
         .then((response) => response.json())
         .then((data) => {
           districtToRep = data;
