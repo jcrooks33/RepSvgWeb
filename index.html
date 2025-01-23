@@ -377,20 +377,19 @@ footer {
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="navbar-logo">
-            <!-- Replace 'replogo.png' with your actual logo file -->
-            <img src="replogo.png" alt="RepReport Logo">
-        </div>
-        <div class="navbar-title">
-            RepReport
-        </div>
-        <nav class="navbar-links">
-            <a href="#" id="homeBtn" class="nav-link">Home</a>
-            <a href="#" class="nav-link">About</a>
-            <a href="#" class="nav-link">Find Your Rep</a>
-        </nav>
-    </header>
+  <header class="navbar">
+    <div class="navbar-logo" id="logoWrapper">
+      <img src="replogo.png" alt="RepReport Logo">
+    </div>
+    <div class="navbar-title" id="titleWrapper">
+      RepReport
+    </div>
+    <nav class="navbar-links">
+      <a href="#" id="homeBtn" class="nav-link">Home</a>
+      <a href="#" class="nav-link">About</a>
+      <a href="#" class="nav-link">Find Your Rep</a>
+    </nav>
+  </header>
 
     <!-- Second Bar -->
     <div class="second-bar">
@@ -1687,6 +1686,39 @@ footer {
     const dependentDropdown = document.getElementById("dependentDropdown");
     const stateDetails = document.getElementById("stateDetails");
   
+     // Attach event listeners for "Home," "Logo," and "Title"
+  const homeBtn = document.getElementById("homeBtn");
+  const logoWrapper = document.getElementById("logoWrapper");
+  const titleWrapper = document.getElementById("titleWrapper");
+
+  [homeBtn, logoWrapper, titleWrapper].forEach((elem) => {
+    if (elem) {
+      elem.addEventListener("click", () => {
+        // Show the big map again
+        if (usaMap) {
+          usaMap.style.display = "block";
+        }
+        // Clear any single-state SVG
+        const container = document.querySelector(".state-svg-container");
+        if (container) {
+          container.innerHTML = "";
+        }
+        // Hide or reset the state form section
+        if (stateDetails) {
+          stateDetails.style.display = "none";
+        }
+        // Reset dropdowns (optional)
+        if (stateDropdown) {
+          stateDropdown.value = "";
+        }
+        if (dependentDropdown) {
+          dependentDropdown.innerHTML = "";
+        }
+      });
+    }
+  });
+
+
     // --- 1) Click on the big map to load single-state SVG ---
     if (usaMap) {
       usaMap.addEventListener("click", (event) => {
