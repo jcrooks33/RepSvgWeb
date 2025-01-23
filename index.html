@@ -386,7 +386,7 @@ footer {
             RepReport
         </div>
         <nav class="navbar-links">
-            <a href="#" class="nav-link">Home</a>
+            <a href="#" id="homeBtn" class="nav-link">Home</a>
             <a href="#" class="nav-link">About</a>
             <a href="#" class="nav-link">Find Your Rep</a>
         </nav>
@@ -1668,7 +1668,7 @@ footer {
         .catch((error) => {
           console.error("Error loading JSON data:", error);
         });
-        fetch("data/dToRep.json")
+      fetch("data/dToRep.json")
         .then((response) => response.json())
         .then((data) => {
           districtToRep = data;
@@ -1687,33 +1687,28 @@ footer {
     const dependentDropdown = document.getElementById("dependentDropdown");
     const stateDetails = document.getElementById("stateDetails");
   
-    // --- 2) Load single-state SVG ---
+    // --- 1) Click on the big map to load single-state SVG ---
     if (usaMap) {
       usaMap.addEventListener("click", (event) => {
         const targetGroup = event.target.closest("g[id]");
         if (targetGroup) {
-          usaMap.style.display = "none";  // Hide big map
           const clickedStateName = targetGroup.id.toLowerCase();
-          const filePath = `states/${clickedStateName}.svg`;
   
+          // Hide the big map
+          usaMap.style.display = "none";
+  
+          // Load the single-state SVG
+          const filePath = `states/${clickedStateName}.svg`;
           fetch(filePath)
             .then((res) => res.text())
             .then((svgMarkup) => {
               // Insert single-state SVG
               document.querySelector(".state-svg-container").innerHTML = svgMarkup;
   
-              // Now attach district event listeners
-              const stateSvg = document.querySelector(".state-svg-container svg");
-              const districtPaths = stateSvg.querySelectorAll("path[id], polygon[id]");
+              // Attach district event listeners
+              attachDistrictListeners();
   
-              districtPaths.forEach((districtEl) => {
-                districtEl.addEventListener("mouseover", handleDistrictMouseOver);
-                districtEl.addEventListener("mousemove", handleDistrictMouseMove);
-                districtEl.addEventListener("mouseout", handleDistrictMouseOut);
-                districtEl.addEventListener("click", handleDistrictClick);
-              });
-  
-              // Update form dropdown
+              // Update form dropdown & dispatch change
               stateDropdown.value = clickedStateName;
               if (stateDetails) stateDetails.style.display = "block";
               stateDropdown.dispatchEvent(new Event("change"));
@@ -1725,14 +1720,14 @@ footer {
       });
     }
   
-    // --- 3) Populate representative dropdown (existing code) ---
+    // --- 2) Whenever a state is selected in the dropdown, load its SVG + update reps ---
     stateDropdown.addEventListener("change", (event) => {
-      // e.g. "alabama"
       const selectedStateKey = event.target.value.toLowerCase();
+      
+      // Populate the 'dependentDropdown' with reps for that state
       const repsList = repsByState[selectedStateKey] || [];
-  
-      // Rebuild options in dependentDropdown
       dependentDropdown.innerHTML = "";
+  
       if (repsList.length === 0) {
         const noRepsOpt = document.createElement("option");
         noRepsOpt.value = "";
@@ -1740,28 +1735,50 @@ footer {
         noRepsOpt.disabled = true;
         noRepsOpt.selected = true;
         dependentDropdown.appendChild(noRepsOpt);
-        return;
+      } else {
+        const placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = "Select a Representative";
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        dependentDropdown.appendChild(placeholderOption);
+  
+        repsList.forEach((repName) => {
+          const opt = document.createElement("option");
+          opt.value = repName;
+          opt.textContent = repName;
+          dependentDropdown.appendChild(opt);
+        });
       }
   
-      const placeholderOption = document.createElement("option");
-      placeholderOption.value = "";
-      placeholderOption.textContent = "Select a Representative";
-      placeholderOption.disabled = true;
-      placeholderOption.selected = true;
-      dependentDropdown.appendChild(placeholderOption);
+      // If a valid state is selected (not the placeholder), load the single-state SVG
+      if (selectedStateKey) {
+        // Hide big map
+        if (usaMap) usaMap.style.display = "none";
   
-      repsList.forEach((repName) => {
-        const opt = document.createElement("option");
-        opt.value = repName;
-        opt.textContent = repName;
-        dependentDropdown.appendChild(opt);
-      });
+        const filePath = `states/${selectedStateKey}.svg`;
+        fetch(filePath)
+          .then((res) => res.text())
+          .then((svgMarkup) => {
+            // Insert single-state SVG
+            document.querySelector(".state-svg-container").innerHTML = svgMarkup;
+            
+            // Show the state detail section if hidden
+            if (stateDetails) stateDetails.style.display = "block";
+  
+            // Attach district event listeners
+            attachDistrictListeners();
+          })
+          .catch((error) => {
+            console.error("Error loading state SVG:", error);
+          });
+      }
     });
   
     // --- District Hover/Click Handlers ---
     function handleDistrictMouseOver(event) {
       const tooltip = document.getElementById("districtHoverInfo");
-      const districtId = event.target.id; 
+      const districtId = event.target.id;
       const repName = districtToRep[districtId] || "(Unknown Rep)";
       tooltip.textContent = repName;
       tooltip.style.display = "block";
@@ -1783,26 +1800,31 @@ footer {
       const repName = districtToRep[districtId];
       if (!repName) return;
   
-      const dropdown = document.getElementById("dependentDropdown");
-      // Find matching <option value="Moore, Barry">, etc.
-      const foundOption = Array.from(dropdown.options).find(
+      // Find matching <option> in the rep dropdown
+      const foundOption = Array.from(dependentDropdown.options).find(
         (opt) => opt.value === repName
       );
       if (foundOption) {
         foundOption.selected = true;
       }
     }
-
-    // form submission
-
-    
-
+  
+    // Helper to attach event listeners to district paths
+    function attachDistrictListeners() {
+      const stateSvg = document.querySelector(".state-svg-container svg");
+      if (!stateSvg) return;
+  
+      const districtPaths = stateSvg.querySelectorAll("path[id], polygon[id]");
+      districtPaths.forEach((districtEl) => {
+        districtEl.addEventListener("mouseover", handleDistrictMouseOver);
+        districtEl.addEventListener("mousemove", handleDistrictMouseMove);
+        districtEl.addEventListener("mouseout", handleDistrictMouseOut);
+        districtEl.addEventListener("click", handleDistrictClick);
+      });
+    }
   </script>
-
   
   <p id="statusMessage" style="margin-top: 1em;"></p>
-
-  
   
 </body>
 </html>
