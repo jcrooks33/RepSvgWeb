@@ -1,8 +1,0 @@
-{
-    "name": "my-vercel-project",
-    "version": "1.0.0",
-    "dependencies": {
-        "@supabase/supabase-js": "^2.47.12",
-        "dotenv": "^16.4.7"
-    }
-}
