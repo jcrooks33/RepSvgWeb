@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <!-- Ensures proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RepReport</title>
   <style>
@@ -15,8 +16,8 @@
     /* Define CSS variables for easy theming */
     :root {
       --primary-color: #000;         /* Black */
-      --secondary-color: white;      /* White */
-      --accent-color: #2c3e50;       /* Dark Blue for footer */
+      --secondary-color: #fff;       /* White */
+      --accent-color: #2c3e50;       /* Dark Blue for footer (if needed) */
       --second-bar-color: #4d4d4d;   /* Second bar color */
       --second-bar-border-radius: 8px;
     }
@@ -41,39 +42,40 @@
       background-color: white;
       padding: 10px 20px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      flex: 0 0 60px; /* Fixed height for header */
     }
 
     /* Logo styling */
     .navbar-logo img {
-      height: 40px; /* Adjust as needed */
+      height: 40px; /* Will reduce in media query for mobile */
       width: auto;
+      vertical-align: middle;
     }
 
     /* Title styling */
     .navbar-title {
-      font-size: 1.5rem;
+      font-size: 1.5rem; /* Will reduce in media query for mobile */
       font-weight: bold;
       color: var(--primary-color);
-      margin-left: 15px;
-      flex-grow: 1;
+      margin: 0 12px;  /* Gives some space around the title */
+      white-space: nowrap; /* Prevents title from wrapping */
     }
 
     /* Navigation links styling */
     .navbar-links {
       display: flex;
-      gap: 20px;
+      gap: 0.5rem; /* Space between links */
+      align-items: center;
+      white-space: nowrap; /* Prevents wrapping of links */
     }
 
     .nav-link {
       color: var(--primary-color);
       text-decoration: none;
-      font-size: 1rem;
+      font-size: 1rem; /* Will reduce in media query for mobile */
       padding: 8px 12px;
       border: 1px solid var(--secondary-color);
       border-radius: 4px;
       transition: background-color 0.3s, color 0.3s;
-      flex-shrink: 0; /* Prevent buttons from shrinking */
     }
 
     .nav-link:hover {
@@ -81,48 +83,44 @@
       color: var(--primary-color);
     }
 
+    /* Second Bar Styling */
+    .second-bar {
+      margin: 10px 30px;
+      padding: 10px 20px;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: var(--second-bar-border-radius);
+      color: var(--primary-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-/* Second Bar Styling */
-.second-bar {
-  margin: 10px 30px;
-  padding: 10px 20px; /* Adjusted padding to match header */
-  background-color: white; /* Matches the navbar's background */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Matches the header's shadow */
-  border-radius: var(--second-bar-border-radius);
-  color: var(--primary-color); /* Same as navbar text color */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; /* Centers content like the header */
-}
+    /* Second Bar Title Styling */
+    .second-bar-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-align: center;
+      margin: 0;
+    }
 
-/* Second Bar Title Styling */
-.second-bar-title {
-  font-size: 1.5rem; /* Adjusted font size to match navbar title */
-  font-weight: bold; /* Matches navbar title */
-  color: var(--primary-color); /* Same as navbar title color */
-  text-align: center;
-  margin: 0; /* Remove additional margin */
-}
-
-/* Container for the second bar content (SVG + text) */
-.second-bar-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 30px;
-}
-
-/* First element - takes 2/3 of the width */
-.second-bar-content > :first-child {
-  flex: 2; /* 2 parts of the total space */
-}
-
-/* Second element - takes 1/3 of the width */
-.second-bar-content > :nth-child(2) {
-  flex: 1; /* 1 part of the total space */
-}
-
+    /* Container for the second bar content (SVG + text) */
+    .second-bar-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 30px;
+    }
+    
+    /* --- Force stacking on smaller screens --- */
+    @media (max-width: 768px) {
+      .second-bar-content {
+        flex-direction: column; /* Stack top to bottom */
+        margin: 0;
+      }
+    }
 
     /* SVG container */
     .svg-container {
@@ -137,8 +135,8 @@
 
     .svg-container svg {
       width: 100%;
-      height: auto;
-      max-height: 800px; /* Prevent it from growing too tall */
+      max-width: 100%;
+      height: auto; 
       display: block;
     }
 
@@ -156,30 +154,30 @@
       min-height: 150px;
     }
 
-footer {
-  margin-top: auto; /* Keeps the footer at the bottom */
-  background-color: white; /* Matches the navbar's background */
-  color: var(--primary-color); /* Matches the navbar's text color */
-  text-align: center;
-  padding: 10px 20px; /* Adjusted padding to match the header */
-  font-size: 0.9rem; /* Keeps the smaller font size */
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Matches the navbar's shadow */
-  border-top: 1px solid var(--secondary-color); /* Optional subtle border for separation */
-}
-
     /* Main content area */
     main {
-      flex: 1 1 auto; /* Allow main to grow and fill available space */
+      flex: 1 1 auto;
       padding: 20px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* Start content from top */
-      overflow: auto; /* Allow scrolling if content exceeds */
+      justify-content: flex-start;
+      overflow: auto;
     }
 
-    /* === New Hover Styling from index2.html === */
-    /* Targeting <g> elements with an id and their child <path> for hover coloring */
+    /* Footer */
+    footer {
+      margin-top: auto; /* Keep footer at bottom */
+      background-color: white;
+      color: var(--primary-color);
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      border-top: 1px solid var(--secondary-color);
+    }
+
+    /* === Hover styling for desktop (won't do much on mobile) === */
     g[id] path {
       fill: #d1dbdd;
       stroke: #d1dbdd;
@@ -192,191 +190,130 @@ footer {
       stroke: #999999;
     }
     
-    /* Single-state container styles */
     .state-svg-container svg path,
     .state-svg-container svg polygon {
-    fill: #d1dbdd !important; 
-
-    cursor: pointer;
+      fill: #d1dbdd !important; 
+      cursor: pointer;
     }
 
     .state-svg-container svg path:hover,
     .state-svg-container svg polygon:hover,
     .state-svg-container svg path:focus,
     .state-svg-container svg polygon:focus {
-    fill: #b3ced0 !important;
-
-    outline: none;
+      fill: #b3ced0 !important;
+      outline: none;
     }
 
-    /* Style the form container */
-.form-container {
-  width: 100%;
-  max-width: 400px;
-  margin: 30px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
+    /* Form container */
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
 
-/* Form title */
-.form-container h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: var(--primary-color);
-}
+    .form-container h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
 
-/* Input fields */
-.form-container input[type="email"],
-.form-container select {
-  width: calc(100% - 20px);
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  background-color: #f9f9f9;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s;
-}
+    /* Input fields */
+    .form-container input[type="email"],
+    .form-container select {
+      width: calc(100% - 20px);
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      background-color: #f9f9f9;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: border-color 0.3s;
+    }
+    .form-container input[type="email"]:focus,
+    .form-container select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
 
-.form-container input[type="email"]:focus,
-.form-container select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
+    /* Button styling */
+    .form-container button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .form-container button[type="submit"]:hover {
+      background-color: #333;
+      transform: translateY(-2px);
+    }
 
-/* Button styling */
-.form-container button[type="submit"] {
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
+    /* Google Sign-In button */
+    .form-container .google-signin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .form-container .google-signin:hover {
+      background-color: #f7f7f7;
+    }
 
-.form-container button[type="submit"]:hover {
-  background-color: #333;
-  transform: translateY(-2px);
-}
-
-/* Google Sign-In button */
-.form-container .google-signin {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  padding: 10px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.form-container .google-signin:hover {
-  background-color: #f7f7f7;
-}
-
-/* Form spacing */
-.form-group {
-  margin-bottom: 20px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .form-container {
-    padding: 15px;
-  }
-
-  .form-container h2 {
-    font-size: 1.2rem;
-  }
-
-  .form-container button[type="submit"] {
-    padding: 8px;
-  }
-}
-
-
-    /* Responsive adjustments */
+    /* --- Smaller screen tweaks for the navbar --- */
     @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        flex: 0 0 80px; /* Adjust header height for stacked layout */
-      }
-
       .navbar-title {
-        margin: 10px 0;
+        font-size: 1.2rem;  /* Shrinks the title */
       }
-
-      .navbar-links {
-        flex-direction: column;
-        width: 100%;
+      .navbar-logo img {
+        height: 32px;       /* Smaller logo */
       }
-
       .nav-link {
-        width: 100%;
-        text-align: left;
-      }
-
-      .second-bar {
-        margin: 10px 15px 0 15px;
-        padding: 15px 15px;
-      }
-
-      .second-bar-title {
-        font-size: 1.5rem;
-      }
-
-      .second-bar-content {
-        flex-direction: column;
-        margin: 0;
-      }
-
-      .svg-container,
-      .text-container {
-        width: 100%;
-        margin-right: 0;
-      }
-
-      .text-container {
-        font-size: 1rem;
-      }
-
-      main {
-        padding: 15px;
+        font-size: 0.9rem;  /* Slightly smaller links */
+        padding: 6px 10px;
       }
     }
 
+    /* More compact on very small screens (optional) */
     @media (max-width: 600px) {
       footer {
         font-size: 0.8rem;
       }
-
       .second-bar-title {
         font-size: 1.2rem;
       }
-
       .text-container {
         font-size: 0.9rem;
+      }
+      .form-container h2 {
+        font-size: 1.2rem;
+      }
+      .form-container button[type="submit"] {
+        padding: 8px;
       }
     }
   </style>
 </head>
 <body>
-
   <header class="navbar">
     <div class="navbar-logo" id="logoWrapper">
       <img src="replogo.png" alt="RepReport Logo">
@@ -387,7 +324,7 @@ footer {
     <nav class="navbar-links">
       <a href="#" id="homeBtn" class="nav-link">Home</a>
       <a href="#" class="nav-link">About</a>
-      <a href="#" class="nav-link">Find Your Rep</a>
+      <a href="#" class="nav-link">Get Your Rep</a>
     </nav>
   </header>
 
