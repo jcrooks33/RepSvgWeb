@@ -275,6 +275,19 @@
   -webkit-appearance: none;
   margin: 0;
 }
+/* Force normal text color on all inputs & selects within your form */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container select {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important; /* iOS Safari override */
+}
+
+/* If you're using autofill, override that color too */
+.form-container input:-webkit-autofill {
+  -webkit-text-fill-color: #000 !important;
+  box-shadow: 0 0 0px 1000px #f9f9f9 inset; /* Force background to match your input BG */
+}
 
     /* Responsive behavior */
     @media (max-width: 768px) {
