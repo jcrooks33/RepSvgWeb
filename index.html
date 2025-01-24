@@ -256,24 +256,26 @@
       background-color: #333;
       transform: translateY(-2px);
     }
+    .form-container input[type="email"],
+.form-container select {
+  -webkit-appearance: none;   /* For Safari (iOS) */
+  -moz-appearance: none;      /* For Firefox (older versions) */
+  appearance: none;           /* Standard syntax */
+}
 
-    /* Google Sign-In button */
-    .form-container .google-signin {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 15px;
-      padding: 10px;
-      background-color: white;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .form-container .google-signin:hover {
-      background-color: #f7f7f7;
-    }
+/* Optionally remove any iOS-specific border radius: */
+.form-container input[type="email"],
+.form-container select {
+  border-radius: 5px; /* reapply your own radius as needed */
+}
+
+/* If you have a numeric input and want to remove stepper controls: */
+.form-container input[type="number"]::-webkit-inner-spin-button,
+.form-container input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
     /* Responsive behavior */
     @media (max-width: 768px) {
       .navbar {
