@@ -1630,7 +1630,7 @@
     let districtToRep = {};
   
     window.addEventListener("DOMContentLoaded", () => {
-      fetch("data/stateToRep.json")
+      fetch("data/stateRep.json")
         .then((response) => response.json())
         .then((data) => {
           repsByState = data;
