@@ -34,53 +34,49 @@
       overflow-x: hidden; /* Prevent horizontal scrolling */
     }
 
-    /* Navbar (Header) styling */
+    /* Navbar container */
     .navbar {
       display: flex;
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
       align-items: center;
-      justify-content: space-between;
-      background-color: white;
+      justify-content: space-between; /* Logo/Title on left, links on right when wide */
+      background-color: #fff;
       padding: 10px 20px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    /* Logo styling */
+    /* Group logo + title in one flex container */
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      /* No fixed width so it can shrink/grow as needed */
+    }
     .navbar-logo img {
-      height: 40px; /* Will reduce in media query for mobile */
+      height: 40px;
       width: auto;
-      vertical-align: middle;
+      margin-right: 10px;
     }
-
-    /* Title styling */
     .navbar-title {
-      font-size: 1.5rem; /* Will reduce in media query for mobile */
+      font-size: 1.5rem;
       font-weight: bold;
-      color: var(--primary-color);
-      margin: 0 12px;  /* Gives some space around the title */
-      white-space: nowrap; /* Prevents title from wrapping */
+      white-space: nowrap; /* If you want to keep the brand name on one line */
     }
 
-    /* Navigation links styling */
+    /* Links container */
     .navbar-links {
       display: flex;
-      gap: 0.5rem; /* Space between links */
-      align-items: center;
-      white-space: nowrap; /* Prevents wrapping of links */
+      gap: 1rem; /* space between links */
     }
-
     .nav-link {
-      color: var(--primary-color);
       text-decoration: none;
-      font-size: 1rem; /* Will reduce in media query for mobile */
+      color: #000;
       padding: 8px 12px;
-      border: 1px solid var(--secondary-color);
       border-radius: 4px;
-      transition: background-color 0.3s, color 0.3s;
+      transition: background-color 0.3s;
+      white-space: nowrap; /* keeps each link on a single line */
     }
-
     .nav-link:hover {
-      background-color: var(--secondary-color);
-      color: var(--primary-color);
+      background-color: #eee;
     }
 
     /* Second Bar Styling */
@@ -278,18 +274,29 @@
     .form-container .google-signin:hover {
       background-color: #f7f7f7;
     }
-
-    /* --- Smaller screen tweaks for the navbar --- */
+    /* Responsive behavior */
     @media (max-width: 768px) {
-      .navbar-title {
-        font-size: 1.2rem;  /* Shrinks the title */
+      .navbar {
+        /* Center everything when stacked */
+        justify-content: center;
       }
+      .navbar-brand {
+        width: 100%;    /* Occupies entire row */
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+      .navbar-links {
+        width: 100%;    /* Occupies second row */
+        justify-content: space-evenly;  /* Evenly space the links on that row */
+        margin-bottom: 10px;
+      }
+
+      /* Adjust brand size if desired */
       .navbar-logo img {
-        height: 32px;       /* Smaller logo */
+        height: 32px;
       }
-      .nav-link {
-        font-size: 0.9rem;  /* Slightly smaller links */
-        padding: 6px 10px;
+      .navbar-title {
+        font-size: 1.25rem;
       }
     }
 
@@ -315,18 +322,23 @@
 </head>
 <body>
   <header class="navbar">
+  <!-- Brand: logo + title together -->
+  <div class="navbar-brand">
     <div class="navbar-logo" id="logoWrapper">
       <img src="replogo.png" alt="RepReport Logo">
     </div>
     <div class="navbar-title" id="titleWrapper">
       RepReport
     </div>
-    <nav class="navbar-links">
-      <a href="#" id="homeBtn" class="nav-link">Home</a>
-      <a href="#" class="nav-link">About</a>
-      <a href="#" class="nav-link">Get Your Rep</a>
-    </nav>
-  </header>
+  </div>
+
+  <!-- Navigation Links -->
+  <nav class="navbar-links">
+    <a href="#" id="homeBtn" class="nav-link">Home</a>
+    <a href="#" class="nav-link">About</a>
+    <a href="#" class="nav-link">Find Your Rep</a>
+  </nav>
+</header>
 
     <!-- Second Bar -->
     <div class="second-bar">
