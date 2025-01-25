@@ -220,7 +220,7 @@
 
     .form-container h2 {
       font-size: 1.5rem;
-      font-weight: bold;
+      font-weight: normal;
       margin-bottom: 20px;
       color: var(--primary-color);
     }
@@ -299,6 +299,8 @@
       .navbar {
         /* Center everything when stacked */
         justify-content: center;
+        flex-direction: column; /* Stack vertically */
+        align-items: center; /* Center items horizontally */
       }
       .navbar-brand {
         width: 100%;    /* Occupies entire row */
@@ -323,7 +325,22 @@
         margin-right: 0; /* Remove the right margin */
         margin-bottom: 10px; /* Optional: Add bottom margin for spacing if stacked */
       }
-    }
+      .second-bar-content {
+    flex-direction: column; /* Stack items vertically */
+  }
+
+  .text-container {
+    order: 1; /* Appear first */
+    margin-bottom: 0px; /* Optional: Add spacing below */
+  }
+
+  .svg-container {
+    order: 2; /* Appear second */
+    margin-right: 0; /* Remove right margin */
+    margin-bottom: 0; /* Remove bottom margin if previously set */
+  }
+}
+    
 
     /* More compact on very small screens (optional) */
     @media (max-width: 600px) {
