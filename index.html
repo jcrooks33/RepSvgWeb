@@ -36,31 +36,34 @@
 
     /* Navbar container */
     .navbar {
-      display: flex;
-      flex-wrap: wrap; /* Allows wrapping on smaller screens */
-      align-items: center;
-      justify-content: space-between; /* Logo/Title on left, links on right when wide */
-      background-color: #fff;
-      padding: 10px 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+  display: flex;
+  align-items: center; /* Vertically centers all children */
+  justify-content: space-between; /* Distributes space between brand and links */
+  background-color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-    /* Group logo + title in one flex container */
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-      /* No fixed width so it can shrink/grow as needed */
-    }
-    .navbar-logo img {
-      height: 40px;
-      width: auto;
-      margin-right: 10px;
-    }
-    .navbar-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      white-space: nowrap; /* If you want to keep the brand name on one line */
-    }
+/* Group logo + title in one flex container */
+.navbar-brand {
+  display: flex;
+  align-items: center; /* Vertically centers logo and title */
+}
+
+/* Logo image */
+.navbar-logo img {
+  height: 30px;
+  width: auto;
+  margin-right: 10px;
+  display: block; /* Removes any extra space below the image */
+}
+
+/* Navbar title */
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  white-space: nowrap; /* Keeps the brand name on one line */
+}
 
     /* Links container */
     .navbar-links {
@@ -353,7 +356,7 @@
       RepReport
     </div>
   </div>
-
+  <div class="navbar-title">Get in the Know </div>
   <!-- Navigation Links -->
   <nav class="navbar-links">
     <a href="#" id="homeBtn" class="nav-link">Home</a>
@@ -363,11 +366,6 @@
 </header>
 
     <!-- Second Bar -->
-    <div class="second-bar">
-        <div class="second-bar-title">
-            Get in the Know
-        </div>
-    </div>
         <div class="second-bar-content">
             <div class="svg-container">
             <!-- Embed your SVG directly or use an <img> tag if it's an external file -->
@@ -1492,9 +1490,15 @@
   novalidate
   aria-labelledby="signupFormTitle"
 >
+<div class="second-bar">
+  <div class="second-bar-title">
+      Click a state or use the dropdowns to select your Rep.
+  </div>
+</div>
   <h2 id="signupFormTitle">Sign Up</h2>
   
   <div class="form-row">
+    
     <div class="form-group">
       <label for="email">Email Address:</label>
       <!-- IMPORTANT: name="EMAIL" for Mailchimp -->
