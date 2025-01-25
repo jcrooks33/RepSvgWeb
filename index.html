@@ -180,20 +180,21 @@
 
     /* === Hover styling for desktop (won't do much on mobile) === */
     g[id] path {
-      fill: #d1dbdd;
-      stroke: #d1dbdd;
+      fill: #4d4d4d;
+      stroke: rgb(209, 219, 221);
       stroke-width: 0.3;
       transition: fill 0.2s, stroke 0.2s;
       cursor: pointer;
     }
     g[id]:hover path {
-      fill: #b3ced0;
-      stroke: #999999;
+      fill: #b0b0b0;
     }
     
     .state-svg-container svg path,
     .state-svg-container svg polygon {
-      fill: #d1dbdd !important; 
+      fill: #4d4d4d !important; 
+      stroke-width: 0.3 !important;
+      stroke: rgb(209, 219, 221) !important;
       cursor: pointer;
     }
 
@@ -201,7 +202,7 @@
     .state-svg-container svg polygon:hover,
     .state-svg-container svg path:focus,
     .state-svg-container svg polygon:focus {
-      fill: #b3ced0 !important;
+      fill: #b0b0b0 !important;
       outline: none;
     }
 
